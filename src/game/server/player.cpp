@@ -418,6 +418,14 @@ BEGIN_DATADESC( CBasePlayer )
 	DEFINE_FIELD( m_bPlayerUnderwater, FIELD_BOOLEAN ),
 	DEFINE_FIELD( m_hViewEntity, FIELD_EHANDLE ),
 
+#ifdef OMOD
+	// adnan
+	// set the use angles
+	// set when the player presses use
+	DEFINE_FIELD( m_vecUseAngles, FIELD_VECTOR ),
+	// end adnan
+#endif
+
 	DEFINE_FIELD( m_hConstraintEntity, FIELD_EHANDLE ),
 	DEFINE_FIELD( m_vecConstraintCenter, FIELD_VECTOR ),
 	DEFINE_FIELD( m_flConstraintRadius, FIELD_FLOAT ),
@@ -7965,6 +7973,14 @@ void SendProxy_CropFlagsToPlayerFlagBitsLength( const SendProp *pProp, const voi
 		SendPropVector		( SENDINFO( m_vecBaseVelocity ), -1, SPROP_COORD ),
 #else
 		SendPropVector		( SENDINFO( m_vecBaseVelocity ), 20, 0, -1000, 1000 ),
+#endif
+
+#ifdef OMOD
+		// adnan
+		// send the use angles
+		// set when the player presses use
+		SendPropVector		( SENDINFO( m_vecUseAngles), 0, SPROP_NOSCALE ),
+		// end adnan
 #endif
 
 		SendPropEHandle		( SENDINFO( m_hConstraintEntity)),

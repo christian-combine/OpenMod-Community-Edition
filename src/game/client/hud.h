@@ -162,8 +162,10 @@ public:
 	void						SetScreenShotTime( float flTime ){ m_flScreenShotTime = flTime; }
 
 public:
-
 	int							m_iKeyBits;
+#ifdef OMOD
+	bool						m_bSkipClear;
+#endif
 #ifndef _XBOX
 	float						m_flMouseSensitivity;
 	float						m_flMouseSensitivityFactor;

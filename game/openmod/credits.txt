@@ -1,2 +1,5 @@
 CREDITS -
 YourLocalMoon - lead developer
+
+PROJECTS THAT MADE OPENMOD POSSIBLE -
+ARGG

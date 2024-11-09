@@ -64,6 +64,8 @@ $Project "Server (OpenMod)"
 		{
 			$File	"$SRCDIR\game\shared\Multiplayer\multiplayer_animstate.h"
 			$File	"$SRCDIR\game\shared\Multiplayer\multiplayer_animstate.cpp"
+			
+			$File	"$SRCDIR\game\shared\openmod\weapon_physgun.cpp"
 		}
 
 		$Folder	"HL2 DLL"
