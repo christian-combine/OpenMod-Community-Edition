@@ -56,3 +56,9 @@ config.cfg
 *.vpc_crc
 .vs/
 *.sentinel
+server_blacklist.txt
+graphs/
+*.cache
+stats.txt
+user_custom/
+voice_ban.dt

@@ -795,8 +795,27 @@ void CWeaponGravityGun::EffectUpdate( void )
 	CBaseEntity *pObject = m_hObject;
 	if ( pObject )
 	{
+#ifdef OMOD
+#ifndef CLIENT_DLL
+		IPhysicsObject* pFreeze = GetPhysObjFromPhysicsBone( pObject, m_physicsBone );
+		pFreeze->EnableMotion( true ); // unfreeze, if possible
+#endif
+#endif
+
 		if ( m_useDown )
 		{
+#ifdef OMOD
+			if ( pOwner->m_afButtonPressed & IN_ATTACK2 )
+			{
+				m_useDown = false;
+				const char* name = pObject->GetClassname();
+				if ( strcmp( name, "prop_vehicle_jeep" ) != 0 ) { // make sure it's not a jeep
+#ifndef CLIENT_DLL
+					pFreeze->EnableMotion( false ); // freeze the object
+#endif
+				}
+			}
+#endif
 			if ( pOwner->m_afButtonPressed & IN_USE )
 			{
 				m_useDown = false;
@@ -804,6 +823,18 @@ void CWeaponGravityGun::EffectUpdate( void )
 		}
 		else 
 		{
+#ifdef OMOD
+			if ( pOwner->m_afButtonPressed & IN_ATTACK2 )
+			{
+				m_useDown = false;
+				const char* name = pObject->GetClassname();
+				if ( strcmp( name, "prop_vehicle_jeep" ) != 0 ) { // make sure it's not a jeep
+#ifndef CLIENT_DLL
+					pFreeze->EnableMotion( false ); // freeze the object
+#endif
+				}
+			}
+#endif
 			if ( pOwner->m_afButtonPressed & IN_USE )
 			{
 				m_useDown = true;
