@@ -25,8 +25,6 @@ public:
 
 	IGameUI*		GetGameUI();
 
-    virtual void	OnThink() override;
-
     // elements
     vgui::HTML *m_pHTMLPanel;
 

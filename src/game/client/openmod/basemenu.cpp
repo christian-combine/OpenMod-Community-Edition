@@ -45,20 +45,9 @@ RootPanel::RootPanel(VPANEL parent) : Panel( NULL, "OverrideUIRootPanel" )
 	m_ExitingFrameCount = 0;
 
     m_pHTMLPanel = new vgui::HTML(this, "HTMLPanel");
-
-	vgui::ivgui()->AddTickSignal(GetVPanel(), 100);
-}
-
-void RootPanel::OnThink()
-{
-	m_pHTMLPanel->Refresh();
-
-    if (engine->IsInGame())
-        m_pHTMLPanel->RunJavascript("togglevisible(true);");
-    else
-        m_pHTMLPanel->RunJavascript("togglevisible(false);");
-
-    m_pHTMLPanel->RequestFocus();
+    m_pHTMLPanel->SetScrollbarsEnabled(false);
+	m_pHTMLPanel->SetContextMenuEnabled(false);
+	m_pHTMLPanel->SetViewSourceEnabled(false);
 }
 
 IGameUI *RootPanel::GetGameUI()

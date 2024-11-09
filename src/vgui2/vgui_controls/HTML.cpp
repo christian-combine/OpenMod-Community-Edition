@@ -1382,21 +1382,7 @@ void HTML::BrowserOpenNewTab( HTML_OpenLinkInNewTab_t *pCmd )
 //-----------------------------------------------------------------------------
 void HTML::BrowserPopupHTMLWindow( HTML_NewWindow_t *pCmd )
 {
-	HTMLPopup *p = new HTMLPopup( this, pCmd->pchURL, "" );
-	int wide = pCmd->unWide;
-	int tall = pCmd->unTall;
-	if ( wide == 0 || tall == 0 )
-	{
-		wide = MAX( 640, GetWide() );
-		tall = MAX( 480, GetTall() );
-	}
-
-	p->SetBounds( pCmd->unX, pCmd->unY, wide, tall  );
-	p->SetDeleteSelfOnClose( true );
-	if ( pCmd->unX == 0 || pCmd->unY == 0 )
-		p->MoveToCenterOfScreen();
-	p->Activate();
-
+	
 }
 
 
@@ -1736,18 +1722,8 @@ void HTML::BrowserJSAlert(HTML_JSAlert_t* pCmd)
 		if (command && strlen(command) > 0)
 		{
 			engine->ClientCmd_Unrestricted(command);
-			RequestFocus();
 		}
-		RequestFocus();
     }
-    else
-    {
-        MessageBox* pDlg = new MessageBox(m_sCurrentURL, (const char*)pCmd->pchMessage, this);
-        pDlg->AddActionSignalTarget(this);
-        pDlg->SetCommand(new KeyValues("DismissJSDialog", "result", false));
-        pDlg->DoModal();
-    }
-	RequestFocus();
 }
 
 //-----------------------------------------------------------------------------
@@ -1755,11 +1731,6 @@ void HTML::BrowserJSAlert(HTML_JSAlert_t* pCmd)
 //-----------------------------------------------------------------------------
 void HTML::BrowserJSConfirm( HTML_JSConfirm_t *pCmd )
 {
-	QueryBox *pDlg = new QueryBox( m_sCurrentURL, (const char *)pCmd->pchMessage, this );
-	pDlg->AddActionSignalTarget( this );
-	pDlg->SetOKCommand( new KeyValues( "DismissJSDialog", "result", true ) );
-	pDlg->SetCancelCommand( new KeyValues( "DismissJSDialog", "result", false ) );
-	pDlg->DoModal();
 }
 
 
