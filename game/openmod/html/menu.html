@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			body {
+				background-color: gray;
+			}
+		</style>
+		<script>
+			function togglevisible(show) {
+				var div = document.getElementById("InGameOnly");
+				if (div) {
+					div.style.display = show ? "block" : "none";
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<main>
+			<h1>OpenMod</h1>
+			<div id="InGameOnly">
+				<button onclick="alert('cmd:gamemenucommand ResumeGame');">RESUME GAME</button> <br /> <br />
+				<button onclick="alert('cmd:gamemenucommand Disconnect');">DISCONNECT</button> <br /> <br />
+				<button onclick="alert('cmd:gamemenucommand OpenPlayerListDialog');">PLAYER LIST</button> <br /> <br />
+			</div>
+			<button onclick="alert('cmd:gamemenucommand OpenServerBrowser');">SERVER BROWSER</button> <br /> <br />
+			<button onclick="alert('cmd:gamemenucommand OpenCreateMultiplayerGameDialog');">CREATE SERVER</button> <br /> <br />
+			<button onclick="alert('cmd:gamemenucommand OpenOptionsDialog');">OPTIONS</button> <br /> <br />
+			<button onclick="alert('cmd:gamemenucommand Quit');">QUIT</button> <br /> <br /> <br />
+		</main>
+	</body>
+</html>

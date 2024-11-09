@@ -170,6 +170,10 @@ extern vgui::IInputInternal *g_InputInternal;
 #include "sixense/in_sixense.h"
 #endif
 
+#ifdef OMOD
+#include "basemenu.h"
+#endif
+
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
@@ -217,6 +221,10 @@ IReplaySystem *g_pReplay = NULL;
 #endif
 
 IHaptics* haptics = NULL;// NVNT haptics system interface singleton
+
+#ifdef OMOD
+RootPanel          	*IBaseMenu;
+#endif
 
 //=============================================================================
 // HPE_BEGIN
@@ -862,7 +870,6 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 	InitCRTMemDebug();
 	MathLib_Init( 2.2f, 2.2f, 0.0f, 2.0f );
 
-
 #ifdef SIXENSE
 	g_pSixenseInput = new SixenseInput;
 #endif
@@ -876,6 +883,18 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 
 #ifndef NO_STEAM
 	ClientSteamContext().Activate();
+#endif
+
+#ifdef OMOD
+	if ( CommandLine()->FindParm( "-gameui" ) == 0 )
+	{
+		if ( !IBaseMenu )
+		{
+			OverrideUI->Create( NULL );
+			IBaseMenu = OverrideUI->GetMenuBase();
+			OverrideRootUI();
+		}
+	}
 #endif
 
 	// We aren't happy unless we get all of our interfaces.
@@ -1014,10 +1033,10 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CreateInterfaceFn physi
 	IGameSystem::Add( PerfVisualBenchmark() );
 	IGameSystem::Add( MumbleSystem() );
 	
-	#if defined( TF_CLIENT_DLL )
+#if defined( TF_CLIENT_DLL )
 	IGameSystem::Add( CustomTextureToolCacheGameSystem() );
 	IGameSystem::Add( TFSharedContentManager() );
-	#endif
+#endif
 
 #if defined( TF_CLIENT_DLL )
 	if ( g_AbuseReportMgr != NULL )
@@ -1197,6 +1216,13 @@ void CHLClient::Shutdown( void )
 
 	IGameSystem::ShutdownAllSystems();
 	
+#ifdef OMOD
+	if ( IBaseMenu )
+  	{
+    	IBaseMenu->~RootPanel();
+  	}
+#endif
+
 	gHUD.Shutdown();
 	VGui_Shutdown();
 	
@@ -1646,6 +1672,11 @@ void CHLClient::LevelInitPreEntity( char const* pMapName )
 //-----------------------------------------------------------------------------
 void CHLClient::LevelInitPostEntity( )
 {
+#ifdef OMOD
+	IBaseMenu->m_pHTMLPanel->RunJavascript("togglevisible(true);");
+	IBaseMenu->m_pHTMLPanel->RequestFocus();
+#endif
+
 	IGameSystem::LevelInitPostEntityAllSystems();
 	C_PhysPropClientside::RecreateAll();
 	internalCenterPrint->Clear();
@@ -1695,6 +1726,11 @@ void CHLClient::LevelShutdown( void )
 	// Remove temporary entities before removing entities from the client entity list so that the te_* may
 	// clean up before hand.
 	tempents->LevelShutdown();
+
+#ifdef OMOD
+	IBaseMenu->m_pHTMLPanel->RunJavascript("togglevisible(false);");
+	IBaseMenu->m_pHTMLPanel->RequestFocus();
+#endif
 
 	// Now release/delete the entities
 	cl_entitylist->Release();

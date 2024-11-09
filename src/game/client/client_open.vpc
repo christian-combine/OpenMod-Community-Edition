@@ -36,6 +36,12 @@ $Project "Client (OpenMod)"
 
 		$Folder	"OpenMod DLL"
 		{
+			$Folder "VGUI"
+			{
+				$File	"openmod\basemenu.cpp"
+				$File	"openmod\basemenu.h"
+			}
+			
 			$File	"$SRCDIR\game\shared\Multiplayer\multiplayer_animstate.h"
 			$File	"$SRCDIR\game\shared\Multiplayer\multiplayer_animstate.cpp"
 			

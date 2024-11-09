@@ -1,7 +1,7 @@
 "GameInfo"
 {
 	game	"OpenMod"
-	title	"OPENMOD"
+	title	" "
 	title2	" "
 	type multiplayer_only
 	nomodels 0
