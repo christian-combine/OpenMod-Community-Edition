@@ -47,3 +47,6 @@ config.cfg
 # shader files
 *.tmp
 
+# oh well
+*.filters
+*.vpc_crc
