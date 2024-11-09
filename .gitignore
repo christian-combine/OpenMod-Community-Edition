@@ -50,3 +50,4 @@ config.cfg
 # oh well
 *.filters
 *.vpc_crc
+/src/.vs
