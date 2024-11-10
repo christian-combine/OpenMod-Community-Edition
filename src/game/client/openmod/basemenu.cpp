@@ -104,8 +104,6 @@ void RootPanel::ApplySchemeSettings(IScheme *pScheme)
 
     m_pHTMLPanel->SetBounds(0, 0, wide, tall);
     m_pHTMLPanel->OpenURL(filePath, nullptr, true);
-    m_pHTMLPanel->RunJavascript("togglevisible(false);");
-    m_pHTMLPanel->RequestFocus();
 }
 
 class COverrideInterface : public IOverrideInterface
