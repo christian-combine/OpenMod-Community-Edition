@@ -170,7 +170,6 @@ extern vgui::IInputInternal *g_InputInternal;
 
 #ifdef OMOD
 #include "basemenu.h"
-#include "lua/luamanager.h"
 #endif
 
 // memdbgon must be the last include file in a .cpp file!!!
@@ -1175,11 +1174,6 @@ void CHLClient::PostInit()
 			g_pFullFileSystem->AddSearchPath( szPath, "GAME" );
 		}
 	}
-#endif
-
-#ifdef OMOD
-	LuaManager* lua = new LuaManager();
-	lua->LoadDirectories(lua->GetState());
 #endif
 }
 

@@ -60,14 +60,6 @@ $Project "Server (OpenMod)"
 		$File   "$SRCDIR\game\shared\teamplay_round_timer.cpp"
 		$File   "$SRCDIR\game\shared\teamplay_round_timer.h"
 
-		$Folder "Lua"
-		{
-			$File	"$SRCDIR\game\shared\lua\lsteamapi.h"
-			$File	"$SRCDIR\game\shared\lua\lsteamapi.cpp"
-			$File	"$SRCDIR\game\shared\lua\luamanager.h"
-			$File	"$SRCDIR\game\shared\lua\luamanager.cpp"
-		}
-
 		$Folder	"OpenMod DLL"
 		{
 			$File	"$SRCDIR\game\shared\Multiplayer\multiplayer_animstate.h"

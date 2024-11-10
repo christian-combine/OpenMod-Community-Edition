@@ -90,10 +90,6 @@
 #include "serverbenchmark_base.h"
 #include "querycache.h"
 
-#ifdef OMOD
-#include "lua/luamanager.h"
-#endif
-
 #ifdef TF_DLL
 #include "gc_clientsystem.h"
 #include "econ_item_inventory.h"
@@ -752,10 +748,6 @@ bool CServerGameDLL::DLLInit( CreateInterfaceFn appSystemFactory,
 void CServerGameDLL::PostInit()
 {
 	IGameSystem::PostInitAllSystems();
-#ifdef OMOD
-	LuaManager* lua = new LuaManager();
-	lua->LoadDirectories(lua->GetState());
-#endif
 }
 
 void CServerGameDLL::DLLShutdown( void )
