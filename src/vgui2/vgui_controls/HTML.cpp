@@ -1716,12 +1716,13 @@ void HTML::BrowserLinkAtPositionResponse( HTML_LinkAtPosition_t *pCmd )
 void HTML::BrowserJSAlert(HTML_JSAlert_t* pCmd)
 {
     // check if alert
-    if (strstr(pCmd->pchMessage, "cmd:") == pCmd->pchMessage)
+    if (strstr( pCmd->pchMessage, "cmd:" ) == pCmd->pchMessage)
     {
+		DismissJSDialog( true );
         const char* command = pCmd->pchMessage + 4;
-		if (command && strlen(command) > 0)
+		if ( command && strlen( command ) > 0 )
 		{
-			engine->ClientCmd_Unrestricted(command);
+			engine->ClientCmd_Unrestricted( command );
 		}
     }
 }
