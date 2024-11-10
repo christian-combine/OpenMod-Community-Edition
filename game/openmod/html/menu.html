@@ -2,11 +2,25 @@
 <html>
 	<head>
 		<style>
-			body {
-				background-color: gray;
-			}
 			#InGameOnly {
 				display: none;
+			}
+
+			h1 {
+				position: absolute;
+				top: 25vh;
+				left: 5vw;
+				transform: translateY(-50%);
+				margin: 0;
+				font-size: 3em;
+				font-family: Arial;
+			}
+
+			button {
+				transform: translateY(15.5vw);
+				margin: 0.25em 0em 0em 4.5vw;
+				font-size: 1em;
+				padding: 0.5em 1vw;
 			}
 		</style>
 		<script>
@@ -14,6 +28,19 @@
 				var div = document.getElementById("InGameOnly");
 				if (div) {
 					div.style.display = show ? "block" : "none";
+				}
+			}
+			
+			function modifybg(remove) {
+				const body = document.body;
+				const h1 = document.querySelector('h1');
+
+				if (remove) {
+					body.style.removeProperty('background-color');
+					h1.style.color = 'white';
+				} else {
+					body.style.backgroundColor = 'lightgray';
+					h1.style.color = 'black';
 				}
 			}
 		</script>
