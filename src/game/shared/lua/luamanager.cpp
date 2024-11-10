@@ -166,6 +166,9 @@ LuaManager::LuaManager()
 	lua_register(L, "print", LuaPrint);
 	lua_register(L, "warn", LuaWarn);
 
+    // oh well..
+    LSteamAPI::Register(L);
+
 #ifdef CLIENT_DLL
 	lua_pushboolean(L, true);
 	lua_setglobal(L, "CLIENT");

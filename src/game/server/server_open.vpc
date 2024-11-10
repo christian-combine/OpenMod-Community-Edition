@@ -62,6 +62,8 @@ $Project "Server (OpenMod)"
 
 		$Folder "Lua"
 		{
+			$File	"$SRCDIR\game\shared\lua\lsteamapi.h"
+			$File	"$SRCDIR\game\shared\lua\lsteamapi.cpp"
 			$File	"$SRCDIR\game\shared\lua\luamanager.h"
 			$File	"$SRCDIR\game\shared\lua\luamanager.cpp"
 		}

@@ -15,6 +15,9 @@
 #include <string>
 #include <filesystem.h>
 
+// oh well..
+#include "lsteamapi.h"
+
 class LuaManager
 {
 public:
