@@ -462,7 +462,7 @@ void CBaseViewModel::CalcViewModelView( CBasePlayer *owner, const Vector& eyePos
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-float g_fMaxViewModelLag = 1.5f;
+ConVar r_maxvmlag("r_maxvmlag", "1.5", FCVAR_REPLICATED, "Maximum viewmodel lag factor");
 
 void CBaseViewModel::CalcViewModelLag( Vector& origin, QAngle& angles, QAngle& original_angles )
 {
@@ -483,9 +483,9 @@ void CBaseViewModel::CalcViewModelLag( Vector& origin, QAngle& angles, QAngle& o
 		// If we start to lag too far behind, we'll increase the "catch up" speed.  Solves the problem with fast cl_yawspeed, m_yaw or joysticks
 		//  rotating quickly.  The old code would slam lastfacing with origin causing the viewmodel to pop to a new position
 		float flDiff = vDifference.Length();
-		if ( (flDiff > g_fMaxViewModelLag) && (g_fMaxViewModelLag > 0.0f) )
+		if ( (flDiff > r_maxvmlag.GetFloat()) && (r_maxvmlag.GetFloat() > 0.0f) )
 		{
-			float flScale = flDiff / g_fMaxViewModelLag;
+			float flScale = flDiff / r_maxvmlag.GetFloat();
 			flSpeed *= flScale;
 		}
 
@@ -507,7 +507,7 @@ void CBaseViewModel::CalcViewModelLag( Vector& origin, QAngle& angles, QAngle& o
 	else if ( pitch < -180.0f )
 		pitch += 360.0f;
 
-	if ( g_fMaxViewModelLag == 0.0f )
+	if (r_maxvmlag.GetFloat() == 0.0f )
 	{
 		origin = vOriginalOrigin;
 		angles = vOriginalAngles;
