@@ -7,3 +7,7 @@ Why a **JBMod** alternative? because you can't improve *perfection* (aka **Garry
 ## Contributing
 
 Pull requests are always welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
