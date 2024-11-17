@@ -346,7 +346,9 @@ void CHL2MP_Player::Spawn(void)
 
 void CHL2MP_Player::PickupObject( CBaseEntity *pObject, bool bLimitMassAndSize )
 {
-	
+#ifdef OMOD
+	BaseClass::PickupObject( pObject, bLimitMassAndSize );
+#endif
 }
 
 bool CHL2MP_Player::ValidatePlayerModel( const char *pModel )
