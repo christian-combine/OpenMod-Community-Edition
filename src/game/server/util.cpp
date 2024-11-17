@@ -637,27 +637,83 @@ CBasePlayer* UTIL_PlayerByUserId( int userID )
 }
 
 //
-// Return the local player.
-// If this is a multiplayer game, return NULL.
+// Return the listenserver-host.
+// If that's not possible, try to return literally ANY player
 // 
 CBasePlayer *UTIL_GetLocalPlayer( void )
 {
-	if ( gpGlobals->maxClients > 1 )
-	{
-		if ( developer.GetBool() )
-		{
-			Assert( !"UTIL_GetLocalPlayer" );
-			
-#ifdef	DEBUG
-			Warning( "UTIL_GetLocalPlayer() called in multiplayer game.\n" );
-#endif
-		}
-
-		return NULL;
+	//try to return the listenserver-host
+	CBasePlayer *pHost = UTIL_GetListenServerHost();
+	if (pHost){
+		return pHost;
 	}
 
-	return UTIL_PlayerByIndex( 1 );
+	//try to return literally any other client on the server
+	for (int i = 1; i < gpGlobals->maxClients; i++)
+	{
+		CBasePlayer *pPlayer = UTIL_PlayerByIndex(i);
+
+		if (pPlayer){
+			return pPlayer;
+		}	
+	}
+
+	return NULL;
 }
+
+#ifdef OMOD
+CBasePlayer* UTIL_GetNearestPlayer(const Vector& pos)
+{
+	CBasePlayer* pPlayer = NULL;
+	float	flNearestDistSqr = FLT_MAX;
+	float	flDistSqr;
+	for (int iClient = 1; iClient <= gpGlobals->maxClients; ++iClient)
+	{
+		CBasePlayer* pEnt = UTIL_PlayerByIndex(iClient);
+		if (!pEnt || !pEnt->IsPlayer())
+			continue;
+
+		// Distance is the deciding factor
+		flDistSqr = (pos - pEnt->GetAbsOrigin()).LengthSqr();
+
+		// Closer, take it
+		if (flDistSqr < flNearestDistSqr)
+		{
+			flNearestDistSqr = flDistSqr;
+			pPlayer = pEnt;
+		}
+	}
+
+	return pPlayer;
+}
+
+CBasePlayer* UTIL_GetNearestVisiblePlayer(CBaseEntity* pEntity, int mask)
+{
+	const Vector& pos = pEntity->GetAbsOrigin();
+
+	CBasePlayer* pPlayer = NULL;
+	float	flNearestDistSqr = FLT_MAX;
+	float	flDistSqr;
+	for (int iClient = 1; iClient <= gpGlobals->maxClients; ++iClient)
+	{
+		CBasePlayer* pEnt = UTIL_PlayerByIndex(iClient);
+		if (!pEnt || !pEnt->IsPlayer())
+			continue;
+
+		// Distance is the deciding factor
+		flDistSqr = (pos - pEnt->GetAbsOrigin()).LengthSqr();
+
+		// Closer, take it
+		if (flDistSqr < flNearestDistSqr && pEntity->FVisible(pEnt, mask))
+		{
+			flNearestDistSqr = flDistSqr;
+			pPlayer = pEnt;
+		}
+	}
+
+	return pPlayer;
+}
+#endif
 
 //
 // Get the local player on a listen server - this is for multiplayer use only

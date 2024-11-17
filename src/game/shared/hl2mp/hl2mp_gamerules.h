@@ -120,8 +120,10 @@ public:
 	void CleanUpMap();
 	void CheckRestartGame();
 	void RestartGame();
-	
-#ifndef CLIENT_DLL
+
+#ifndef CLIENT_DLL 
+	void InitDefaultAIRelationships( void );
+
 	virtual Vector VecItemRespawnSpot( CItem *pItem );
 	virtual QAngle VecItemRespawnAngles( CItem *pItem );
 	virtual float	FlItemRespawnTime( CItem *pItem );

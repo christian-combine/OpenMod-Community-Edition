@@ -14,28 +14,34 @@
 #pragma once
 #endif
 
-//-----------------------------------------------------------------------------
-//
-// Function to get the local player. AI does not want asserts or warnings,
-// just NULL result
-//
-//-----------------------------------------------------------------------------
-
 inline CBasePlayer *AI_GetSinglePlayer()
 {
-	if ( gpGlobals->maxClients > 1 )
-	{
-		return NULL;
-	}
-	
 	return UTIL_GetLocalPlayer();
 }
+
+#ifdef OMOD
+// Andrew; these have been moved to UTIL_* functions, since we use them outside
+// of the scope of AI_
+inline CBasePlayer *AI_GetNearestPlayer( const Vector& pos )
+{
+	return UTIL_GetNearestPlayer( pos );
+}
+
+inline CBasePlayer *AI_GetNearestPlayer( const CBaseEntity* pEntity )
+{
+	return pEntity ? AI_GetNearestPlayer( pEntity->GetAbsOrigin() ) : AI_GetNearestPlayer( vec3_origin );
+}
+
+inline CBasePlayer *AI_GetNearestVisiblePlayer( CBaseEntity *pEntity, int mask = MASK_BLOCKLOS )
+{
+	return UTIL_GetNearestVisiblePlayer( pEntity, mask );
+}
+#endif
 
 inline bool AI_IsSinglePlayer()
 {
 	return ( gpGlobals->maxClients == 1 );
 }
-
 
 //-----------------------------------------------------------------------------
 //

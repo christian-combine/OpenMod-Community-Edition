@@ -350,7 +350,7 @@ void CNPC_PlayerCompanion::GatherConditions()
 
 	if ( AI_IsSinglePlayer() )
 	{
-		CBasePlayer *pPlayer = UTIL_GetLocalPlayer();
+		CBasePlayer *pPlayer = UTIL_GetNearestPlayer( GetAbsOrigin() );
 
 		if ( Classify() == CLASS_PLAYER_ALLY_VITAL )
 		{
@@ -498,7 +498,7 @@ void CNPC_PlayerCompanion::GatherConditions()
 
 	if ( AI_IsSinglePlayer() && hl2_episodic.GetBool() && !GetEnemy() && HasCondition( COND_HEAR_PLAYER ) )
 	{
-		Vector los = ( UTIL_GetLocalPlayer()->EyePosition() - EyePosition() );
+		Vector los = ( UTIL_GetNearestPlayer( GetAbsOrigin() )->EyePosition() - EyePosition() );
 		los.z = 0;
 		VectorNormalize( los );
 

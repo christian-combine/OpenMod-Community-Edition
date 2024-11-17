@@ -1503,7 +1503,7 @@ void CChangeLevel::InputChangeLevel( inputdata_t &inputdata )
 	// Ignore changelevel transitions if the player's dead or attempting a challenge
 	if ( gpGlobals->maxClients == 1 )
 	{
-		CBasePlayer *pPlayer = UTIL_GetLocalPlayer();
+		CBasePlayer *pPlayer = UTIL_GetNearestPlayer( GetAbsOrigin() );
 		if ( pPlayer && ( !pPlayer->IsAlive() || pPlayer->GetBonusChallenge() > 0 ) )
 			return;
 	}
@@ -1594,9 +1594,11 @@ void CChangeLevel::ChangeLevelNow( CBaseEntity *pActivator )
 
 	Assert(!FStrEq(m_szMapName, ""));
 
+#ifndef OMOD
 	// Don't work in deathmatch
 	if ( g_pGameRules->IsDeathmatch() )
 		return;
+#endif
 
 	// Some people are firing these multiple times in a frame, disable
 	if ( m_bTouched )
@@ -1604,7 +1606,7 @@ void CChangeLevel::ChangeLevelNow( CBaseEntity *pActivator )
 
 	m_bTouched = true;
 
-	CBaseEntity *pPlayer = (pActivator && pActivator->IsPlayer()) ? pActivator : UTIL_GetLocalPlayer();
+	CBaseEntity *pPlayer = (pActivator && pActivator->IsPlayer()) ? pActivator : UTIL_GetNearestPlayer( GetAbsOrigin() );;
 
 	int transitionState = InTransitionVolume(pPlayer, m_szLandmarkName);
 	if ( transitionState == TRANSITION_VOLUME_SCREENED_OUT )
@@ -3038,7 +3040,7 @@ void CTriggerCamera::Enable( void )
 
 	if ( !m_hPlayer || !m_hPlayer->IsPlayer() )
 	{
-		m_hPlayer = UTIL_GetLocalPlayer();
+		m_hPlayer = UTIL_GetNearestPlayer( GetAbsOrigin() );
 	}
 
 	if ( !m_hPlayer )

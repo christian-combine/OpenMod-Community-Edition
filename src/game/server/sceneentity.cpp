@@ -2588,7 +2588,7 @@ void CSceneEntity::BuildSortedSpeakEventSoundsPrefetchList(
 				// In single player, try to use the combined or regular .wav files as needed
 				if ( gpGlobals->maxClients == 1 )
 				{
-					CBasePlayer *player = UTIL_GetLocalPlayer();
+					CBasePlayer *player = UTIL_GetNearestPlayer( GetAbsOrigin() );
 					if ( player && !GetSoundNameForPlayer( event, player, soundname, sizeof( soundname ), player ) )
 					{
 						// Skip to next event
@@ -3712,7 +3712,7 @@ CBaseEntity *CSceneEntity::FindNamedEntity( const char *name, CBaseEntity *pActo
 
 	if ( !stricmp( name, "Player" ) || !stricmp( name, "!player" ))
 	{
-		entity = ( gpGlobals->maxClients == 1 ) ? ( CBaseEntity * )UTIL_GetLocalPlayer() : NULL;
+		entity = ( CBaseEntity * )UTIL_GetNearestPlayer( pActor->GetAbsOrigin() );
 	}
 	else if ( !stricmp( name, "!target1" ) )
 	{
@@ -3839,7 +3839,7 @@ CBaseEntity *CSceneEntity::FindNamedEntityClosest( const char *name, CBaseEntity
 	} 
 	else if ( !stricmp( name, "Player" ) || !stricmp( name, "!player" ))
 	{
-		entity = ( gpGlobals->maxClients == 1 ) ? ( CBaseEntity * )UTIL_GetLocalPlayer() : NULL;
+		entity = ( CBaseEntity * )UTIL_GetNearestPlayer( pActor->GetAbsOrigin() );
 		return entity;
 	}
 	else if ( !stricmp( name, "!target1" ) )

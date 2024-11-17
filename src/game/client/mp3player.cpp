@@ -6,7 +6,7 @@
 
 #include "cbase.h"
 
-#if 0
+#ifdef _WIN32
 #include "mp3player.h"
 #include "KeyValues.h"
 #include "filesystem.h"
