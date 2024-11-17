@@ -8,6 +8,8 @@
 #include "GameUI/IGameUI.h"
 #include <vgui/VGUI.h>
 #include <vgui_controls/HTML.h>
+#include "steam/steamclientpublic.h"
+#include "vgui/IVGui.h"
 
 namespace vgui
 {

@@ -8,6 +8,8 @@
 // $NoKeywords: $
 //=============================================================================//
 
+#define OMOD // oh right
+
 #include "vgui_controls/pch_vgui_controls.h"
 #include <vgui_controls/EditablePanel.h>
 #include <vgui_controls/Menu.h>
@@ -15,7 +17,10 @@
 
 #include "filesystem.h"
 #include "../vgui2/src/vgui_key_translation.h"
+
+#ifdef OMOD
 #include "../../game/client/cdll_client_int.h"
+#endif
 
 #undef PostMessage
 #undef MessageBox
@@ -1217,7 +1222,6 @@ void HTML::CHTMLFindBar::OnCommand( const char *pchCmd )
 	else
 		BaseClass::OnCommand( pchCmd );
 
-	RequestFocus();
 }
 
 
@@ -1382,7 +1386,21 @@ void HTML::BrowserOpenNewTab( HTML_OpenLinkInNewTab_t *pCmd )
 //-----------------------------------------------------------------------------
 void HTML::BrowserPopupHTMLWindow( HTML_NewWindow_t *pCmd )
 {
-	
+	HTMLPopup *p = new HTMLPopup( this, pCmd->pchURL, "" );
+	int wide = pCmd->unWide;
+	int tall = pCmd->unTall;
+	if ( wide == 0 || tall == 0 )
+	{
+		wide = MAX( 640, GetWide() );
+		tall = MAX( 480, GetTall() );
+	}
+
+	p->SetBounds( pCmd->unX, pCmd->unY, wide, tall  );
+	p->SetDeleteSelfOnClose( true );
+	if ( pCmd->unX == 0 || pCmd->unY == 0 )
+		p->MoveToCenterOfScreen();
+	p->Activate();
+
 }
 
 
@@ -1583,6 +1601,7 @@ void HTML::BrowserShowToolTip( HTML_ShowToolTip_t *pCmd )
 	tip->SetMaxToolTipWidth( MAX( 200, GetWide()/2 ) );
 	tip->ShowTooltip( this );
 	*/
+	
 }
 
 
@@ -1713,18 +1732,25 @@ void HTML::BrowserLinkAtPositionResponse( HTML_LinkAtPosition_t *pCmd )
 //-----------------------------------------------------------------------------
 // Purpose: browser telling us to pop a javascript alert dialog
 //-----------------------------------------------------------------------------
-void HTML::BrowserJSAlert(HTML_JSAlert_t* pCmd)
+void HTML::BrowserJSAlert( HTML_JSAlert_t *pCmd )
 {
-    // check if alert
-    if (strstr( pCmd->pchMessage, "cmd:" ) == pCmd->pchMessage)
-    {
+#ifndef OMOD
+	MessageBox *pDlg = new MessageBox( m_sCurrentURL, (const char *)pCmd->pchMessage, this );
+	pDlg->AddActionSignalTarget( this );
+	pDlg->SetCommand( new KeyValues( "DismissJSDialog", "result", false ) );
+	pDlg->DoModal();
+#else
+	// check if alert
+	if ( strstr( pCmd->pchMessage, "cmd:" ) == pCmd->pchMessage )
+	{
 		DismissJSDialog( true );
-        const char* command = pCmd->pchMessage + 4;
+		const char* command = pCmd->pchMessage + 4;
 		if ( command && strlen( command ) > 0 )
 		{
 			engine->ClientCmd_Unrestricted( command );
 		}
-    }
+	}
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -1732,6 +1758,11 @@ void HTML::BrowserJSAlert(HTML_JSAlert_t* pCmd)
 //-----------------------------------------------------------------------------
 void HTML::BrowserJSConfirm( HTML_JSConfirm_t *pCmd )
 {
+	QueryBox *pDlg = new QueryBox( m_sCurrentURL, (const char *)pCmd->pchMessage, this );
+	pDlg->AddActionSignalTarget( this );
+	pDlg->SetOKCommand( new KeyValues( "DismissJSDialog", "result", true ) );
+	pDlg->SetCancelCommand( new KeyValues( "DismissJSDialog", "result", false ) );
+	pDlg->DoModal();
 }
 
 
@@ -1773,5 +1804,3 @@ void HTML::UpdateSizeAndScrollBars()
 	BrowserResize();
 	InvalidateLayout();
 }
-
-

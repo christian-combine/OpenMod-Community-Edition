@@ -32,7 +32,7 @@ void OverrideRootUI()
 	}
 }
 
-RootPanel::RootPanel(VPANEL parent) : Panel( NULL, "OverrideUIRootPanel" )
+RootPanel::RootPanel(VPANEL parent) : Panel( NULL, "RootPanel" )
 {
 	SetParent(parent);
 	guiroot = this;
@@ -48,6 +48,16 @@ RootPanel::RootPanel(VPANEL parent) : Panel( NULL, "OverrideUIRootPanel" )
     m_pHTMLPanel->SetScrollbarsEnabled(false);
 	m_pHTMLPanel->SetContextMenuEnabled(false);
 	m_pHTMLPanel->SetViewSourceEnabled(false);
+#if 0
+	m_pHTMLPanel->RunJavascript(
+		"document.body.style.userSelect = 'none';"
+		"document.body.style.webkitUserSelect = 'none';"
+		"document.body.style.mozUserSelect = 'none';"
+		"document.body.style.msUserSelect = 'none';"
+		"document.body.style.touchAction = 'none';"
+	);
+	// oh well..
+#endif
 }
 
 IGameUI *RootPanel::GetGameUI()
