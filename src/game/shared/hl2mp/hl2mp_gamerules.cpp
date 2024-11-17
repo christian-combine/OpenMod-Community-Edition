@@ -12,30 +12,26 @@
 #include "ammodef.h"
 
 #ifdef CLIENT_DLL
-	#include "c_hl2mp_player.h"
+#include "c_hl2mp_player.h"
 #else
-
-	#include "eventqueue.h"
-	#include "player.h"
-	#include "gamerules.h"
-	#include "game.h"
-	#include "items.h"
-	#include "entitylist.h"
-	#include "mapentities.h"
-	#include "in_buttons.h"
-	#include <ctype.h>
-	#include "voice_gamemgr.h"
-	#include "iscorer.h"
-	#include "hl2mp_player.h"
-	#include "weapon_hl2mpbasehlmpcombatweapon.h"
-	#include "team.h"
-	#include "voice_gamemgr.h"
-	#include "hl2mp_gameinterface.h"
-	#include "hl2mp_cvars.h"
-
-#ifdef DEBUG	
-	#include "hl2mp_bot_temp.h"
-#endif
+#include "eventqueue.h"
+#include "player.h"
+#include "gamerules.h"
+#include "game.h"
+#include "items.h"
+#include "entitylist.h"
+#include "mapentities.h"
+#include "in_buttons.h"
+#include <ctype.h>
+#include "voice_gamemgr.h"
+#include "iscorer.h"
+#include "hl2mp_player.h"
+#include "weapon_hl2mpbasehlmpcombatweapon.h"
+#include "team.h"
+#include "voice_gamemgr.h"
+#include "hl2mp_gameinterface.h"
+#include "hl2mp_cvars.h"
+#include "hl2mp_bot_temp.h"
 
 extern void respawn(CBaseEntity *pEdict, bool fCopyCorpse);
 
@@ -941,59 +937,48 @@ CAmmoDef *GetAmmoDef()
 }
 
 #ifdef CLIENT_DLL
-
-	ConVar cl_autowepswitch(
-		"cl_autowepswitch",
-		"1",
-		FCVAR_ARCHIVE | FCVAR_USERINFO,
-		"Automatically switch to picked up weapons (if more powerful)" );
-
+ConVar cl_autowepswitch(
+	"cl_autowepswitch",
+	"1",
+	FCVAR_ARCHIVE | FCVAR_USERINFO,
+	"Automatically switch to picked up weapons (if more powerful)" );
 #else
+// Handler for the "bot" command.
+void Bot_f()
+{		
+	// Look at -count.
+	int count = 1;
+	count = clamp( count, 1, 16 );
 
-#ifdef DEBUG
-
-	// Handler for the "bot" command.
-	void Bot_f()
-	{		
-		// Look at -count.
-		int count = 1;
-		count = clamp( count, 1, 16 );
-
-		int iTeam = TEAM_COMBINE;
-				
-		// Look at -frozen.
-		bool bFrozen = false;
+	int iTeam = TEAM_COMBINE;
 			
-		// Ok, spawn all the bots.
-		while ( --count >= 0 )
+	// Look at -frozen.
+	bool bFrozen = false;
+		
+	// Ok, spawn all the bots.
+	while ( --count >= 0 )
+	{
+		BotPutInServer( bFrozen, iTeam );
+	}
+}
+
+
+ConCommand cc_Bot( "bot", Bot_f, "Add a bot.", FCVAR_CHEAT );
+
+bool CHL2MPRules::FShouldSwitchWeapon( CBasePlayer *pPlayer, CBaseCombatWeapon *pWeapon )
+{		
+	if ( pPlayer->GetActiveWeapon() && pPlayer->IsNetClient() )
+	{
+		// Player has an active item, so let's check cl_autowepswitch.
+		const char *cl_autowepswitch = engine->GetClientConVarValue( engine->IndexOfEdict( pPlayer->edict() ),"cl_autowepswitch" );
+		if ( cl_autowepswitch && atoi( cl_autowepswitch ) <= 0 )
 		{
-			BotPutInServer( bFrozen, iTeam );
+			return false;
 		}
 	}
 
-
-	ConCommand cc_Bot( "bot", Bot_f, "Add a bot.", FCVAR_CHEAT );
-
-#endif
-
-	bool CHL2MPRules::FShouldSwitchWeapon( CBasePlayer *pPlayer, CBaseCombatWeapon *pWeapon )
-	{		
-		if ( pPlayer->GetActiveWeapon() && pPlayer->IsNetClient() )
-		{
-			// Player has an active item, so let's check cl_autowepswitch.
-			const char *cl_autowepswitch = engine->GetClientConVarValue( engine->IndexOfEdict( pPlayer->edict() ), "cl_autowepswitch" );
-			if ( cl_autowepswitch && atoi( cl_autowepswitch ) <= 0 )
-			{
-				return false;
-			}
-		}
-
-		return BaseClass::FShouldSwitchWeapon( pPlayer, pWeapon );
-	}
-
-#endif
-
-#ifndef CLIENT_DLL
+	return BaseClass::FShouldSwitchWeapon( pPlayer, pWeapon );
+}
 
 void CHL2MPRules::RestartGame()
 {
