@@ -416,7 +416,7 @@ bool CNPC_EnemyFinder::ShouldAlwaysThink()
 	if ( BaseClass::ShouldAlwaysThink() )
 		return true;
 		
-	CBasePlayer *pPlayer = AI_GetSinglePlayer();
+	CBasePlayer *pPlayer = AI_GetNearestPlayer( GetAbsOrigin() );
 	if ( pPlayer && IRelationType( pPlayer ) == D_HT )
 	{
 		float playerDistSqr = GetAbsOrigin().DistToSqr( pPlayer->GetAbsOrigin() );

@@ -879,7 +879,7 @@ void CAI_ExpresserHost_NPC_DoModifyOrAppendCriteria( CAI_BaseNPC *pSpeaker, AI_C
 		set.AppendCriteria( "weapon", "none" );
 	}
 
-	CBasePlayer *pPlayer = AI_GetSinglePlayer();
+	CBasePlayer *pPlayer = AI_GetNearestPlayer( pSpeaker->GetAbsOrigin() );
 	if ( pPlayer )
 	{
 		Vector distance = pPlayer->GetAbsOrigin() - pSpeaker->GetAbsOrigin();
