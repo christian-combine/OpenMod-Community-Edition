@@ -1,3 +1,10 @@
+//========= Copyright OpenMod, All rights reserved. ============//
+//
+// Purpose:
+//
+// $NoKeywords: $
+//=============================================================================//
+
 #ifndef BASEMENU_H
 #define BASEMENU_H
 #ifdef _WIN32

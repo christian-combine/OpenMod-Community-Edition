@@ -1,3 +1,10 @@
+//========= Copyright OpenMod, All rights reserved. ============//
+//
+// Purpose:
+//
+// $NoKeywords: $
+//=============================================================================//
+
 #include "cbase.h"
 #include "basemenu.h"
 
