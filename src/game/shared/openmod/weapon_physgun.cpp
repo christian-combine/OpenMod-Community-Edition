@@ -6,41 +6,24 @@
 //=============================================================================//
 
 #include "cbase.h"
-#include "beam_shared.h"
-#ifndef CLIENT_DLL
-#include "player.h"
-#endif
-#include "gamerules.h"
+
 #ifdef CLIENT_DLL
-#include "ClientEffectPrecacheSystem.h"
-#endif
-#include "weapon_hl2mpbasehlmpcombatweapon.h"
-#ifndef CLIENT_DLL
-#include "baseviewmodel.h"
-#endif
-#include "vphysics/constraints.h"
-#include "physics.h"
-#include "in_buttons.h"
-#include "IEffects.h"
-#include "soundenvelope.h"
-#include "engine/IEngineSound.h"
-#ifndef CLIENT_DLL
-#include "ndebugoverlay.h"
-#endif
-#include "physics_saverestore.h"
-#ifndef CLIENT_DLL
-#include "player_pickup.h"
-#endif
-#include "soundemittersystem/isoundemittersystembase.h"
-#ifdef CLIENT_DLL
+#include "clienteffectprecachesystem.h"
 #include "model_types.h"
 #include "view_shared.h"
-#include "view.h"
 #include "iviewrender.h"
-#include "ragdoll.h"
 #else
 #include "physics_prop_ragdoll.h"
 #endif
+
+#include "weapon_hl2mpbasehlmpcombatweapon.h"
+
+#include "in_buttons.h"
+#include "soundenvelope.h"
+
+#include "physics_saverestore.h"
+
+#include "soundemittersystem/isoundemittersystembase.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -54,16 +37,12 @@ static int g_physgunGlow;
 
 #define	PHYSGUN_SKIN	1
 
-class CWeaponGravityGun;
-
 #ifdef CLIENT_DLL
 CLIENTEFFECT_REGISTER_BEGIN( PrecacheEffectGravityGun )
-CLIENTEFFECT_MATERIAL( "sprites/physbeam1" )
-CLIENTEFFECT_MATERIAL( "sprites/physbeam" )
-CLIENTEFFECT_MATERIAL( "sprites/physglow" )
+	CLIENTEFFECT_MATERIAL( "sprites/physbeam1" )
+	CLIENTEFFECT_MATERIAL( "sprites/physbeam" )
+	CLIENTEFFECT_MATERIAL( "sprites/physglow" )
 CLIENTEFFECT_REGISTER_END()
-
-
 #endif
 
 IPhysicsObject *GetPhysObjFromPhysicsBone( CBaseEntity *pEntity, short physicsbone )
@@ -324,20 +303,20 @@ IMotionEvent::simresult_e CGravControllerPoint::Simulate( IPhysicsMotionControll
 
 
 #ifdef CLIENT_DLL
-#define CWeaponGravityGun C_WeaponGravityGun
+#define CWeaponPhysicsGun C_WeaponPhysicsGun
 #endif
 
-class CWeaponGravityGun : public CBaseHL2MPCombatWeapon
+class CWeaponPhysicsGun : public CBaseHL2MPCombatWeapon
 {
 	DECLARE_DATADESC();
 
 public:
-	DECLARE_CLASS( CWeaponGravityGun, CBaseHL2MPCombatWeapon );
+	DECLARE_CLASS( CWeaponPhysicsGun, CBaseHL2MPCombatWeapon );
 
 	DECLARE_NETWORKCLASS();
 	DECLARE_PREDICTABLE();
 
-	CWeaponGravityGun();
+	CWeaponPhysicsGun();
 
 #ifdef CLIENT_DLL
 	void GetRenderBounds( Vector& mins, Vector& maxs )
@@ -515,9 +494,9 @@ private:
 	DECLARE_ACTTABLE();
 };
 
-IMPLEMENT_NETWORKCLASS_ALIASED( WeaponGravityGun, DT_WeaponGravityGun )
+IMPLEMENT_NETWORKCLASS_ALIASED( WeaponPhysicsGun, DT_WeaponPhysicsGun )
 
-BEGIN_NETWORK_TABLE( CWeaponGravityGun, DT_WeaponGravityGun )
+BEGIN_NETWORK_TABLE( CWeaponPhysicsGun, DT_WeaponPhysicsGun )
 #ifdef CLIENT_DLL
 	RecvPropEHandle( RECVINFO( m_hObject ) ),
 	RecvPropInt( RECVINFO( m_physicsBone ) ),
@@ -546,37 +525,31 @@ BEGIN_NETWORK_TABLE( CWeaponGravityGun, DT_WeaponGravityGun )
 END_NETWORK_TABLE()
 
 #ifdef CLIENT_DLL
-BEGIN_PREDICTION_DATA( CWeaponGravityGun )
+BEGIN_PREDICTION_DATA( CWeaponPhysicsGun )
 END_PREDICTION_DATA()
 #endif
 
-LINK_ENTITY_TO_CLASS( weapon_physgun, CWeaponGravityGun );
+LINK_ENTITY_TO_CLASS( weapon_physgun, CWeaponPhysicsGun );
 PRECACHE_WEAPON_REGISTER(weapon_physgun);
 
-acttable_t	CWeaponGravityGun::m_acttable[] = 
+acttable_t	CWeaponPhysicsGun::m_acttable[] = 
 {
-	{ ACT_MP_STAND_IDLE,				ACT_HL2MP_IDLE_PHYSGUN,					false },
-	{ ACT_MP_CROUCH_IDLE,				ACT_HL2MP_IDLE_CROUCH_PHYSGUN,			false },
-
-	{ ACT_MP_RUN,						ACT_HL2MP_RUN_PHYSGUN,					false },
-	{ ACT_MP_CROUCHWALK,				ACT_HL2MP_WALK_CROUCH_PHYSGUN,			false },
-
-	{ ACT_MP_ATTACK_STAND_PRIMARYFIRE,	ACT_HL2MP_GESTURE_RANGE_ATTACK_PHYSGUN,	false },
-	{ ACT_MP_ATTACK_CROUCH_PRIMARYFIRE,	ACT_HL2MP_GESTURE_RANGE_ATTACK_PHYSGUN,	false },
-
-	{ ACT_MP_RELOAD_STAND,				ACT_HL2MP_GESTURE_RELOAD_PHYSGUN,		false },
-	{ ACT_MP_RELOAD_CROUCH,				ACT_HL2MP_GESTURE_RELOAD_PHYSGUN,		false },
-
-	{ ACT_MP_JUMP,						ACT_HL2MP_JUMP_PHYSGUN,					false },
+	{ ACT_HL2MP_IDLE,					ACT_HL2MP_IDLE_PHYSGUN,					false },
+	{ ACT_HL2MP_RUN,					ACT_HL2MP_RUN_PHYSGUN,					false },
+	{ ACT_HL2MP_IDLE_CROUCH,			ACT_HL2MP_IDLE_CROUCH_PHYSGUN,			false },
+	{ ACT_HL2MP_WALK_CROUCH,			ACT_HL2MP_WALK_CROUCH_PHYSGUN,			false },
+	{ ACT_HL2MP_GESTURE_RANGE_ATTACK,	ACT_HL2MP_GESTURE_RANGE_ATTACK_PHYSGUN,	false },
+	{ ACT_HL2MP_GESTURE_RELOAD,			ACT_HL2MP_GESTURE_RELOAD_PHYSGUN,		false },
+	{ ACT_HL2MP_JUMP,					ACT_HL2MP_JUMP_PHYSGUN,					false },
 };
 
-IMPLEMENT_ACTTABLE(CWeaponGravityGun);
+IMPLEMENT_ACTTABLE(CWeaponPhysicsGun);
 
 
 //---------------------------------------------------------
 // Save/Restore
 //---------------------------------------------------------
-BEGIN_DATADESC( CWeaponGravityGun )
+BEGIN_DATADESC( CWeaponPhysicsGun )
 
 	DEFINE_FIELD( m_active,				FIELD_INTEGER ),
 	DEFINE_FIELD( m_useDown,				FIELD_BOOLEAN ),
@@ -609,7 +582,7 @@ enum physgun_soundIndex { SI_LOCKEDON = 0, SI_SCANNING = 1, SI_LIGHTOBJECT = 2, 
 //=========================================================
 //=========================================================
 
-CWeaponGravityGun::CWeaponGravityGun()
+CWeaponPhysicsGun::CWeaponPhysicsGun()
 {
 	m_active = false;
 	m_bFiresUnderwater = true;
@@ -621,7 +594,7 @@ CWeaponGravityGun::CWeaponGravityGun()
 //-----------------------------------------------------------------------------
 // On Remove
 //-----------------------------------------------------------------------------
-void CWeaponGravityGun::UpdateOnRemove(void)
+void CWeaponPhysicsGun::UpdateOnRemove(void)
 {
 	EffectDestroy();
 	SoundDestroy();
@@ -684,7 +657,7 @@ bool CGravControllerPoint::UpdateObject( CBasePlayer *pPlayer, CBaseEntity *pEnt
 //-----------------------------------------------------------------------------
 // Purpose: Allow weapons to override mouse input to viewangles (for orbiting)
 //-----------------------------------------------------------------------------
-bool CWeaponGravityGun::OverrideViewAngles( void )
+bool CWeaponPhysicsGun::OverrideViewAngles( void )
 {
 	CBasePlayer *pPlayer = ToBasePlayer( GetOwner() );
 	
@@ -702,7 +675,7 @@ bool CWeaponGravityGun::OverrideViewAngles( void )
 
 //=========================================================
 //=========================================================
-void CWeaponGravityGun::Spawn( )
+void CWeaponPhysicsGun::Spawn( )
 {
 	BaseClass::Spawn();
 //	SetModel( GetWorldModel() );
@@ -713,7 +686,7 @@ void CWeaponGravityGun::Spawn( )
 	FallInit();
 }
 
-void CWeaponGravityGun::OnRestore( void )
+void CWeaponPhysicsGun::OnRestore( void )
 {
 	BaseClass::OnRestore();
 
@@ -726,7 +699,7 @@ void CWeaponGravityGun::OnRestore( void )
 
 //=========================================================
 //=========================================================
-void CWeaponGravityGun::Precache( void )
+void CWeaponPhysicsGun::Precache( void )
 {
 	BaseClass::Precache();
 
@@ -741,7 +714,7 @@ void CWeaponGravityGun::Precache( void )
 	PrecacheScriptSound( "Weapon_Physgun.HeavyObject" );
 }
 
-void CWeaponGravityGun::EffectCreate( void )
+void CWeaponPhysicsGun::EffectCreate( void )
 {
 	EffectUpdate();
 	m_active = true;
@@ -749,7 +722,7 @@ void CWeaponGravityGun::EffectCreate( void )
 
 
 // Andrew; added so we can trace both in EffectUpdate and DrawModel with the same results
-void CWeaponGravityGun::TraceLine( trace_t *ptr )
+void CWeaponPhysicsGun::TraceLine( trace_t *ptr )
 {
 	CBasePlayer *pOwner = ToBasePlayer( GetOwner() );
 	if ( !pOwner )
@@ -766,7 +739,7 @@ void CWeaponGravityGun::TraceLine( trace_t *ptr )
 }
 
 
-void CWeaponGravityGun::EffectUpdate( void )
+void CWeaponPhysicsGun::EffectUpdate( void )
 {
 	Vector start, forward, right;
 	trace_t tr;
@@ -903,20 +876,20 @@ void CWeaponGravityGun::EffectUpdate( void )
 	}
 }
 
-void CWeaponGravityGun::SoundCreate( void )
+void CWeaponPhysicsGun::SoundCreate( void )
 {
 	m_soundState = SS_SCANNING;
 	SoundStart();
 }
 
 
-void CWeaponGravityGun::SoundDestroy( void )
+void CWeaponPhysicsGun::SoundDestroy( void )
 {
 	SoundStop();
 }
 
 
-void CWeaponGravityGun::SoundStop( void )
+void CWeaponPhysicsGun::SoundStop( void )
 {
 	CBasePlayer *pOwner = ToBasePlayer( GetOwner() );
 	if ( !pOwner )
@@ -967,7 +940,7 @@ static float UTIL_LineFraction( float value, float low, float high, float scale 
 	return scale * (value-low) / delta;
 }
 
-void CWeaponGravityGun::SoundStart( void )
+void CWeaponPhysicsGun::SoundStart( void )
 {
 	CPASAttenuationFilter filter( this );
 
@@ -995,7 +968,7 @@ void CWeaponGravityGun::SoundStart( void )
 													//   volume, att, flags, pitch
 }
 
-void CWeaponGravityGun::SoundUpdate( void )
+void CWeaponPhysicsGun::SoundUpdate( void )
 {
 	int newState;
 	
@@ -1052,7 +1025,7 @@ void CWeaponGravityGun::SoundUpdate( void )
 }
 
 
-CBaseEntity *CWeaponGravityGun::GetBeamEntity()
+CBaseEntity *CWeaponPhysicsGun::GetBeamEntity()
 {
 	CBasePlayer *pOwner = ToBasePlayer( GetOwner() );
 	if ( !pOwner )
@@ -1066,7 +1039,7 @@ CBaseEntity *CWeaponGravityGun::GetBeamEntity()
 	return pOwner;
 }
 
-void CWeaponGravityGun::EffectDestroy( void )
+void CWeaponPhysicsGun::EffectDestroy( void )
 {
 #ifdef CLIENT_DLL
 	gHUD.m_bSkipClear = false;
@@ -1077,7 +1050,7 @@ void CWeaponGravityGun::EffectDestroy( void )
 	DetachObject();
 }
 
-void CWeaponGravityGun::UpdateObject( void )
+void CWeaponPhysicsGun::UpdateObject( void )
 {
 	CBasePlayer *pPlayer = ToBasePlayer( GetOwner() );
 	Assert( pPlayer );
@@ -1093,7 +1066,7 @@ void CWeaponGravityGun::UpdateObject( void )
 	}
 }
 
-void CWeaponGravityGun::DetachObject( void )
+void CWeaponPhysicsGun::DetachObject( void )
 {
 	if ( m_hObject )
 	{
@@ -1114,7 +1087,7 @@ void CWeaponGravityGun::DetachObject( void )
 	}
 }
 
-void CWeaponGravityGun::AttachObject( CBaseEntity *pObject, IPhysicsObject *pPhysics, short physicsbone, const Vector& start, const Vector &end, float distance )
+void CWeaponPhysicsGun::AttachObject( CBaseEntity *pObject, IPhysicsObject *pPhysics, short physicsbone, const Vector& start, const Vector &end, float distance )
 {
 	CBasePlayer *pOwner = ToBasePlayer( GetOwner() );
 	if( !pOwner )
@@ -1156,7 +1129,7 @@ void CWeaponGravityGun::AttachObject( CBaseEntity *pObject, IPhysicsObject *pPhy
 
 //=========================================================
 //=========================================================
-void CWeaponGravityGun::PrimaryAttack( void )
+void CWeaponPhysicsGun::PrimaryAttack( void )
 {
 	if ( !m_active )
 	{
@@ -1171,7 +1144,7 @@ void CWeaponGravityGun::PrimaryAttack( void )
 	}
 }
 
-void CWeaponGravityGun::SecondaryAttack( void )
+void CWeaponPhysicsGun::SecondaryAttack( void )
 {
 	return;
 }
@@ -1180,7 +1153,7 @@ void CWeaponGravityGun::SecondaryAttack( void )
 //-----------------------------------------------------------------------------
 // Purpose: Third-person function call to render world model
 //-----------------------------------------------------------------------------
-int CWeaponGravityGun::DrawModel( int flags )
+int CWeaponPhysicsGun::DrawModel( int flags )
 {
 	// Only render these on the transparent pass
 	if ( flags & STUDIO_TRANSPARENCY )
@@ -1272,7 +1245,7 @@ int CWeaponGravityGun::DrawModel( int flags )
 //-----------------------------------------------------------------------------
 // Purpose: First-person function call after viewmodel has been drawn
 //-----------------------------------------------------------------------------
-void CWeaponGravityGun::ViewModelDrawn( C_BaseViewModel *pBaseViewModel )
+void CWeaponPhysicsGun::ViewModelDrawn( C_BaseViewModel *pBaseViewModel )
 {
 	if ( !m_active )
 		return;
@@ -1367,7 +1340,7 @@ void CWeaponGravityGun::ViewModelDrawn( C_BaseViewModel *pBaseViewModel )
 //-----------------------------------------------------------------------------
 // Purpose: We are always considered transparent
 //-----------------------------------------------------------------------------
-bool CWeaponGravityGun::IsTransparent( void )
+bool CWeaponPhysicsGun::IsTransparent( void )
 {
 	return true;
 }
@@ -1376,7 +1349,7 @@ bool CWeaponGravityGun::IsTransparent( void )
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-void CWeaponGravityGun::ItemPreFrame()
+void CWeaponPhysicsGun::ItemPreFrame()
 {
 	BaseClass::ItemPreFrame();
 
@@ -1390,7 +1363,7 @@ void CWeaponGravityGun::ItemPreFrame()
 }
 
 
-void CWeaponGravityGun::ItemPostFrame( void )
+void CWeaponPhysicsGun::ItemPostFrame( void )
 {
 	CBasePlayer *pOwner = ToBasePlayer( GetOwner() );
 	if (!pOwner)
@@ -1473,7 +1446,7 @@ void CWeaponGravityGun::ItemPostFrame( void )
 // Purpose: 
 // Output : Returns true on success, false on failure.
 //-----------------------------------------------------------------------------
-bool CWeaponGravityGun::HasAnyAmmo( void )
+bool CWeaponPhysicsGun::HasAnyAmmo( void )
 {
 	//Always report that we have ammo
 	return true;
@@ -1481,7 +1454,7 @@ bool CWeaponGravityGun::HasAnyAmmo( void )
 
 //=========================================================
 //=========================================================
-bool CWeaponGravityGun::Reload( void )
+bool CWeaponPhysicsGun::Reload( void )
 {
 	return false;
 }
