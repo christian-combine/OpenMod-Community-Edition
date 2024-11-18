@@ -1267,17 +1267,9 @@ void CWeaponPhysicsGun::ViewModelDrawn( C_BaseViewModel *pBaseViewModel )
 
 	// a little noise 11t & 13t should be somewhat non-periodic looking
 	//points[1].z += 4*sin( gpGlobals->curtime*11 ) + 5*cos( gpGlobals->curtime*13 );
-	if ( pObject == NULL )
-	{
-		//points[2] = m_targetPosition;
-		trace_t tr;
-		TraceLine( &tr );
-		points[2] = tr.endpos;
-	}
-	else
-	{
-		pObject->EntityToWorldSpace(m_worldPosition, &points[2]);
-	}
+	trace_t tr;
+	TraceLine( &tr );
+	points[2] = tr.endpos;
 
 	Vector forward, right, up;
 	QAngle playerAngles = pOwner->EyeAngles();
