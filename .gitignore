@@ -62,3 +62,8 @@ graphs/
 stats.txt
 user_custom/
 voice_ban.dt
+
+# maps
+mapsrc/*.bsp
+mapsrc/*.prt
+mapsrc/*.vmx
