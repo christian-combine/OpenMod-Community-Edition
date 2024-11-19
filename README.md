@@ -13,16 +13,16 @@ Why a **JBMod** alternative? because you can't improve *perfection* (aka **Garry
 
 Pull requests are always welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-## License 📝
+## License 📝  
 
-This project is licensed under two separate licenses:
+This project uses **two different licenses** depending on the part of the code:  
 
 1. **[Source SDK License](https://github.com/ValveSoftware/source-sdk-2013/blob/master/LICENSE)**  
-   The Source SDK and any modifications or derivatives of it are governed by Valve's Source SDK License. Please refer to the linked license for specific terms and conditions.
+   Anything that comes from the Source SDK (or is based on it) is covered by Valve's Source SDK License. Make sure to check it out for all the details.  
 
 2. **[MIT License](https://choosealicense.com/licenses/mit/)**  
-   Any original code, assets, or maps created by this project are licensed under the MIT License. This applies only to portions of the project that are not derived from or directly dependent on the Source SDK.
+   All the original stuff we've added—like custom code, assets, or maps — is licensed under MIT. This only applies to the parts of the project that don’t rely directly on the Source SDK.  
 
-### Important Notes:
-- You may not use, modify, or distribute the Source SDK or any modifications of it for commercial purposes without explicit permission from Valve.
-- For contributions to this project, any files or code derived from the Source SDK must retain the Source SDK License terms, while independent contributions can follow the MIT License.
+### A Few Things to Keep in Mind:  
+- You can’t use or distribute anything from the Source SDK (or anything based on it) for commercial purposes unless Valve says it’s okay.  
+- When contributing to this project, anything tied to the Source SDK has to stick to its license, but anything else can follow the MIT License.  
