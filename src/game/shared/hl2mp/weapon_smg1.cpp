@@ -215,7 +215,6 @@ void CWeaponSMG1::Equip( CBaseCombatCharacter *pOwner )
 	BaseClass::Equip( pOwner );
 }
 
-#ifdef OMOD
 #ifndef CLIENT_DLL
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -306,7 +305,6 @@ void CWeaponSMG1::Operator_HandleAnimEvent( animevent_t *pEvent, CBaseCombatChar
 		break;
 	}
 }
-#endif
 #endif
 
 //-----------------------------------------------------------------------------
@@ -425,7 +423,6 @@ void CWeaponSMG1::SecondaryAttack( void )
 	m_flNextSecondaryAttack = gpGlobals->curtime + 1.0f;
 }
 
-#ifdef OMOD
 #ifndef CLIENT_DLL
 #define	COMBINE_MIN_GRENADE_CLEAR_DIST 256
 
@@ -534,7 +531,6 @@ int CWeaponSMG1::WeaponRangeAttack2Condition( float flDot, float flDist )
 		return COND_WEAPON_SIGHT_OCCLUDED;
 	}
 }
-#endif
 #endif
 
 //-----------------------------------------------------------------------------

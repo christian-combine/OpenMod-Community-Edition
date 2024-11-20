@@ -53,6 +53,12 @@ public:
 	bool	CanHolster( void );
 	bool	Reload( void );
 
+#ifdef OMOD
+#ifndef CLIENT_DLL
+	int		CapabilitiesGet( void ) { return bits_CAP_WEAPON_RANGE_ATTACK1; }
+#endif
+#endif
+
 	Activity	GetPrimaryAttackActivity( void );
 	
 	void	DoImpactEffect( trace_t &tr, int nDamageType );

@@ -20,7 +20,6 @@
 #include "weapon_ar2.h"
 #include "effect_dispatch_data.h"
 
-
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
