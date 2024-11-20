@@ -20,6 +20,8 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
+extern ConVar npc_friendlyfire;
+
 //-----------------------------------------------------------------------------
 // NPC's Anim Events Go Here
 //-----------------------------------------------------------------------------
@@ -112,7 +114,9 @@ void CNPC_GMan::Spawn()
 	SetImpactEnergyScale( 0.0f ); // no physics damage on the gman
 	
 	CapabilitiesAdd( bits_CAP_MOVE_GROUND | bits_CAP_OPEN_DOORS | bits_CAP_ANIMATEDFACE | bits_CAP_TURN_HEAD );
-	CapabilitiesAdd( bits_CAP_FRIENDLY_DMG_IMMUNE );
+	if (!npc_friendlyfire.GetBool())
+		CapabilitiesAdd( bits_CAP_FRIENDLY_DMG_IMMUNE );
+
 	AddEFlags( EFL_NO_DISSOLVE | EFL_NO_MEGAPHYSCANNON_RAGDOLL );
 
 	NPCInit();

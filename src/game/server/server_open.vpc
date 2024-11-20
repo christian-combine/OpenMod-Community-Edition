@@ -62,6 +62,13 @@ $Project "Server (OpenMod)"
 
 		$Folder	"OpenMod DLL"
 		{
+			$File	"ai_behavior_passenger.cpp"
+			$File	"ai_eventresponse.cpp"
+			$File	"hl2\ai_behavior_operator.cpp"
+			$File	"hl2\grenade_spit.cpp"
+			$File	"vehicle_choreo_generic.cpp"
+			$File	"hl2\vehicle_jeep.cpp"
+			
 			$File	"$SRCDIR\game\shared\Multiplayer\multiplayer_animstate.h"
 			$File	"$SRCDIR\game\shared\Multiplayer\multiplayer_animstate.cpp"
 			

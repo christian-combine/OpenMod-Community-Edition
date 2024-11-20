@@ -24,6 +24,8 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
+extern ConVar npc_friendlyfire;
+
 ConVar monk_headshot_freq( "monk_headshot_freq", "2" );
 
 //-----------------------------------------------------------------------------
@@ -279,7 +281,8 @@ void CNPC_Monk::Spawn()
 	CapabilitiesAdd( bits_CAP_TURN_HEAD | bits_CAP_DOORS_GROUP | bits_CAP_MOVE_GROUND );
 	CapabilitiesAdd( bits_CAP_USE_WEAPONS );
 	CapabilitiesAdd( bits_CAP_ANIMATEDFACE );
-	CapabilitiesAdd( bits_CAP_FRIENDLY_DMG_IMMUNE );
+	if (!npc_friendlyfire.GetBool())
+		CapabilitiesAdd( bits_CAP_FRIENDLY_DMG_IMMUNE );
 	CapabilitiesAdd( bits_CAP_AIM_GUN );
 	CapabilitiesAdd( bits_CAP_MOVE_SHOOT );
 

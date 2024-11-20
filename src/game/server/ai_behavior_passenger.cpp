@@ -73,7 +73,7 @@ m_nTransitionSequence( -1 )
 //-----------------------------------------------------------------------------
 // Purpose: Enables the behavior to run
 //-----------------------------------------------------------------------------
-void CAI_PassengerBehavior::Enable( CPropJeepEpisodic *pVehicle, bool bImmediateEnter /*= false*/ ) 
+void CAI_PassengerBehavior::Enable( CPropJeep *pVehicle, bool bImmediateEnter /*= false*/ ) 
 { 
 	if ( m_bEnabled && m_hVehicle.Get() )
 		return;
@@ -863,7 +863,7 @@ void CAI_PassengerBehavior::DetachFromVehicle( void )
 	GetOuter()->AddFlag( FL_FLY );
 	GetOuter()->SetGroundEntity( NULL );
 	GetOuter()->SetCollisionGroup( COLLISION_GROUP_NPC );
-	m_hVehicle->RemovePhysicsChild( GetOuter() );
+	//m_hVehicle->RemovePhysicsChild( GetOuter() );
 }
 
 //-----------------------------------------------------------------------------
@@ -889,7 +889,7 @@ void CAI_PassengerBehavior::AttachToVehicle( void )
 	GetEntryTarget( &m_vecTargetPosition, &m_vecTargetAngles );
 
 	// Get physics messages from our attached physics object
-	m_hVehicle->AddPhysicsChild( GetOuter() );
+	//m_hVehicle->AddPhysicsChild( GetOuter() );
 }
 
 //-----------------------------------------------------------------------------

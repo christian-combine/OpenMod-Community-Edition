@@ -1420,6 +1420,11 @@ void CSceneEntity::DispatchEndInterrupt( CChoreoScene *scene, CChoreoEvent *even
 //-----------------------------------------------------------------------------
 void CSceneEntity::DispatchStartExpression( CChoreoScene *scene, CBaseFlex *actor, CChoreoEvent *event )
 {
+#ifdef OMOD
+	if ( !actor )
+		return;
+#endif
+
 	actor->AddSceneEvent( scene, event );
 }
 
@@ -1430,6 +1435,11 @@ void CSceneEntity::DispatchStartExpression( CChoreoScene *scene, CBaseFlex *acto
 //-----------------------------------------------------------------------------
 void CSceneEntity::DispatchEndExpression( CChoreoScene *scene, CBaseFlex *actor, CChoreoEvent *event )
 {
+#ifdef OMOD
+	if ( !actor )
+		return;
+#endif
+
 	actor->RemoveSceneEvent( scene, event, false );
 }
 
@@ -1440,6 +1450,11 @@ void CSceneEntity::DispatchEndExpression( CChoreoScene *scene, CBaseFlex *actor,
 //-----------------------------------------------------------------------------
 void CSceneEntity::DispatchStartFlexAnimation( CChoreoScene *scene, CBaseFlex *actor, CChoreoEvent *event )
 {
+#ifdef OMOD
+	if ( !actor )
+		return;
+#endif
+
 	actor->AddSceneEvent( scene, event );
 }
 
@@ -1450,6 +1465,11 @@ void CSceneEntity::DispatchStartFlexAnimation( CChoreoScene *scene, CBaseFlex *a
 //-----------------------------------------------------------------------------
 void CSceneEntity::DispatchEndFlexAnimation( CChoreoScene *scene, CBaseFlex *actor, CChoreoEvent *event )
 {
+#ifdef OMOD
+	if ( !actor )
+		return;
+#endif
+
 	actor->RemoveSceneEvent( scene, event, false );
 }
 
@@ -1460,6 +1480,11 @@ void CSceneEntity::DispatchEndFlexAnimation( CChoreoScene *scene, CBaseFlex *act
 //-----------------------------------------------------------------------------
 void CSceneEntity::DispatchStartGesture( CChoreoScene *scene, CBaseFlex *actor, CChoreoEvent *event )
 {
+#ifdef OMOD
+	if ( !actor )
+		return;
+#endif
+
 	// Ingore null gestures
 	if ( !Q_stricmp( event->GetName(), "NULL" ) )
 		return;
@@ -1475,6 +1500,11 @@ void CSceneEntity::DispatchStartGesture( CChoreoScene *scene, CBaseFlex *actor, 
 //-----------------------------------------------------------------------------
 void CSceneEntity::DispatchEndGesture( CChoreoScene *scene, CBaseFlex *actor, CChoreoEvent *event )
 {
+#ifdef OMOD
+	if ( !actor )
+		return;
+#endif
+
 	// Ingore null gestures
 	if ( !Q_stricmp( event->GetName(), "NULL" ) )
 		return;
@@ -1489,6 +1519,11 @@ void CSceneEntity::DispatchEndGesture( CChoreoScene *scene, CBaseFlex *actor, CC
 //-----------------------------------------------------------------------------
 void CSceneEntity::DispatchStartGeneric( CChoreoScene *scene, CBaseFlex *actor, CChoreoEvent *event )
 {
+#ifdef OMOD
+	if ( !actor )
+		return;
+#endif
+
 	CBaseEntity *pTarget = FindNamedEntity( event->GetParameters2( ) );
 	actor->AddSceneEvent( scene, event, pTarget );
 }
@@ -1501,6 +1536,11 @@ void CSceneEntity::DispatchStartGeneric( CChoreoScene *scene, CBaseFlex *actor, 
 //-----------------------------------------------------------------------------
 void CSceneEntity::DispatchEndGeneric( CChoreoScene *scene, CBaseFlex *actor, CChoreoEvent *event )
 {
+#ifdef OMOD
+	if ( !actor )
+		return;
+#endif
+
 	actor->RemoveSceneEvent( scene, event, m_bRestoring );
 }
 
@@ -1511,12 +1551,22 @@ void CSceneEntity::DispatchEndGeneric( CChoreoScene *scene, CBaseFlex *actor, CC
 //-----------------------------------------------------------------------------
 void CSceneEntity::DispatchStartLookAt( CChoreoScene *scene, CBaseFlex *actor, CBaseEntity *actor2, CChoreoEvent *event )
 {
+#ifdef OMOD
+	if ( !actor )
+		return;
+#endif
+
 	actor->AddSceneEvent( scene, event, actor2 );
 }
 
 
 void CSceneEntity::DispatchEndLookAt( CChoreoScene *scene, CBaseFlex *actor, CChoreoEvent *event )
 {
+#ifdef OMOD
+	if ( !actor )
+		return;
+#endif
+
 	actor->RemoveSceneEvent( scene, event, m_bRestoring );
 }
 
@@ -1530,12 +1580,22 @@ void CSceneEntity::DispatchEndLookAt( CChoreoScene *scene, CBaseFlex *actor, CCh
 //-----------------------------------------------------------------------------
 void CSceneEntity::DispatchStartMoveTo( CChoreoScene *scene, CBaseFlex *actor, CBaseEntity *actor2, CChoreoEvent *event )
 {
+#ifdef OMOD
+	if ( !actor )
+		return;
+#endif
+
 	actor->AddSceneEvent( scene, event, actor2 );
 }
 
 
 void CSceneEntity::DispatchEndMoveTo( CChoreoScene *scene, CBaseFlex *actor, CChoreoEvent *event )
 {
+#ifdef OMOD
+	if ( !actor )
+		return;
+#endif
+
 	actor->RemoveSceneEvent( scene, event, m_bRestoring );
 }
 
@@ -1665,6 +1725,9 @@ void CSceneEntity::DispatchStartSpeak( CChoreoScene *scene, CBaseFlex *actor, CC
 	if ( actor )
 	{
 		CPASAttenuationFilter filter( actor );
+#ifdef OMOD
+		filter.AddAllPlayers();
+#endif
 
 		if ( m_pRecipientFilter )
 		{
@@ -1865,6 +1928,11 @@ void CSceneEntity::DispatchStartSpeak( CChoreoScene *scene, CBaseFlex *actor, CC
 
 void CSceneEntity::DispatchEndSpeak( CChoreoScene *scene, CBaseFlex *actor, CChoreoEvent *event )
 {
+#ifdef OMOD
+	if ( !actor )
+		return;
+#endif
+
 	actor->RemoveSceneEvent( scene, event, m_bRestoring );
 }
 
@@ -1876,6 +1944,11 @@ void CSceneEntity::DispatchEndSpeak( CChoreoScene *scene, CBaseFlex *actor, CCho
 //-----------------------------------------------------------------------------
 void CSceneEntity::DispatchStartFace( CChoreoScene *scene, CBaseFlex *actor, CBaseEntity *actor2, CChoreoEvent *event )
 {
+#ifdef OMOD
+	if ( !actor )
+		return;
+#endif
+
 	actor->AddSceneEvent( scene, event, actor2 );
 }
 
@@ -1888,6 +1961,11 @@ void CSceneEntity::DispatchStartFace( CChoreoScene *scene, CBaseFlex *actor, CBa
 //-----------------------------------------------------------------------------
 void CSceneEntity::DispatchEndFace( CChoreoScene *scene, CBaseFlex *actor, CChoreoEvent *event )
 {
+#ifdef OMOD
+	if ( !actor )
+		return;
+#endif
+
 	actor->RemoveSceneEvent( scene, event, m_bRestoring );
 }
 
@@ -1899,6 +1977,11 @@ void CSceneEntity::DispatchEndFace( CChoreoScene *scene, CBaseFlex *actor, CChor
 //-----------------------------------------------------------------------------
 void CSceneEntity::DispatchStartSequence( CChoreoScene *scene, CBaseFlex *actor, CChoreoEvent *event )
 {
+#ifdef OMOD
+	if ( !actor )
+		return;
+#endif
+
 	actor->AddSceneEvent( scene, event );
 }
 
@@ -1910,6 +1993,11 @@ void CSceneEntity::DispatchStartSequence( CChoreoScene *scene, CBaseFlex *actor,
 //-----------------------------------------------------------------------------
 void CSceneEntity::DispatchEndSequence( CChoreoScene *scene, CBaseFlex *actor, CChoreoEvent *event )
 {
+#ifdef OMOD
+	if ( !actor )
+		return;
+#endif
+
 	actor->RemoveSceneEvent( scene, event, m_bRestoring );
 }
 
@@ -1921,6 +2009,11 @@ void CSceneEntity::DispatchEndSequence( CChoreoScene *scene, CBaseFlex *actor, C
 //-----------------------------------------------------------------------------
 void CSceneEntity::DispatchStartPermitResponses( CChoreoScene *scene, CBaseFlex *actor, CChoreoEvent *event )
 {
+#ifdef OMOD
+	if ( !actor )
+		return;
+#endif
+
 	actor->SetPermitResponse( gpGlobals->curtime + event->GetDuration() );
 }
 
@@ -1932,6 +2025,11 @@ void CSceneEntity::DispatchStartPermitResponses( CChoreoScene *scene, CBaseFlex 
 //-----------------------------------------------------------------------------
 void CSceneEntity::DispatchEndPermitResponses( CChoreoScene *scene, CBaseFlex *actor, CChoreoEvent *event )
 {
+#ifdef OMOD
+	if ( !actor )
+		return;
+#endif
+
 	actor->SetPermitResponse( 0 );
 }
 
@@ -2469,6 +2567,10 @@ void CSceneEntity::StartPlayback( void )
 			return;
 		}
 
+#ifdef OMOD
+		PrecacheScene( m_pScene );
+#endif
+
 		OnLoaded();
 
 		if ( ShouldNetwork() )
@@ -2912,7 +3014,11 @@ void CSceneEntity::StartEvent( float currenttime, CChoreoScene *scene, CChoreoEv
 				event->SetEndTime( event->GetStartTime() + 1.0 );
 			}
 
+#ifdef OMOD
+			if ( pActor )
+#else
 			if ( pActor && !IsMultiplayer() )
+#endif
 			{
 				CBaseEntity *pActor2 = NULL;
 				if ( event->GetParameters3( ) && strlen( event->GetParameters3( ) ) > 0 )
@@ -2937,7 +3043,11 @@ void CSceneEntity::StartEvent( float currenttime, CChoreoScene *scene, CChoreoEv
 		break;
 	case CChoreoEvent::FACE:
 		{
+#ifdef OMOD
+			if ( pActor )
+#else
 			if ( pActor && !IsMultiplayer() )
+#endif
 			{
 				CBaseEntity *pActor2 = FindNamedEntity( event->GetParameters( ), pActor );
 				if ( pActor2 )

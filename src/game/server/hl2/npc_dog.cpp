@@ -23,6 +23,8 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
+extern ConVar npc_friendlyfire;
+
 #define EFFECT_COUNT 4
 
 extern ConVar ai_debug_avoidancebounds;
@@ -472,7 +474,8 @@ void CNPC_Dog::Spawn( void )
 	m_takedamage		= DAMAGE_NO;
 	
 	CapabilitiesAdd( bits_CAP_MOVE_GROUND | bits_CAP_OPEN_DOORS | bits_CAP_TURN_HEAD | bits_CAP_ANIMATEDFACE );
-	CapabilitiesAdd( bits_CAP_FRIENDLY_DMG_IMMUNE );
+	if (!npc_friendlyfire.GetBool())
+		CapabilitiesAdd( bits_CAP_FRIENDLY_DMG_IMMUNE );
 
 	NPCInit();
 
