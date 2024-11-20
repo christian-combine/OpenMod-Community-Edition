@@ -146,12 +146,28 @@ public:
 
 	
 	bool	IsTeamplay( void ) { return m_bTeamPlayEnabled;	}
+#ifdef OMOD
+#ifndef CLIENT_DLL
+	bool	NPC_ShouldDropGrenade( CBasePlayer *pRecipient );
+	bool	NPC_ShouldDropHealth( CBasePlayer *pRecipient );
+	void	NPC_DroppedHealth( void );
+	void	NPC_DroppedGrenade( void );
+	
+	virtual bool IsAlyxInDarknessMode();
+#endif
+#endif
 	void	CheckAllPlayersReady( void );
 
 	virtual bool IsConnectedUserInfoChangeAllowed( CBasePlayer *pPlayer );
 	
 private:
-	
+#ifdef OMOD
+#ifndef CLIENT_DLL
+	float	m_flLastHealthDropTime;
+	float	m_flLastGrenadeDropTime;
+#endif
+#endif
+
 	CNetworkVar( bool, m_bTeamPlayEnabled );
 	CNetworkVar( float, m_flGameStartTime );
 	CUtlVector<EHANDLE> m_hRespawnableItemsAndWeapons;

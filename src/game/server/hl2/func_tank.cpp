@@ -2159,6 +2159,9 @@ void CFuncTank::DoMuzzleFlash( void )
 			CEffectData data;
 			data.m_nAttachmentIndex = m_nBarrelAttachment;
 			data.m_nEntIndex = pAnim->entindex();
+#ifdef OMOD
+			pAnim->GetAttachment( m_nBarrelAttachment, data.m_vOrigin );
+#endif
 			
 			// FIXME: Create a custom entry here!
 			DispatchEffect( "ChopperMuzzleFlash", data );
@@ -2170,6 +2173,9 @@ void CFuncTank::DoMuzzleFlash( void )
 			data.m_nAttachmentIndex = m_nBarrelAttachment;
 			data.m_flScale = 1.0f;
 			data.m_fFlags = MUZZLEFLASH_COMBINE;
+#ifdef OMOD
+			pAnim->GetAttachment( m_nBarrelAttachment, data.m_vOrigin );
+#endif
 
 			DispatchEffect( "MuzzleFlash", data );
 		}

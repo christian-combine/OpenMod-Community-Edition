@@ -231,10 +231,15 @@ extern int gEvilImpulse101;
 //-----------------------------------------------------------------------------
 void CItem::ActivateWhenAtRest( float flTime /* = 0.5f */ )
 {
+#ifndef OMOD
 	RemoveSolidFlags( FSOLID_TRIGGER );
 	m_bActivateWhenAtRest = true;
 	SetThink( &CItem::ComeToRest );
 	SetNextThink( gpGlobals->curtime + flTime );
+#else
+	SetThink( &CItem::FallThink );
+	SetNextThink( gpGlobals->curtime + 0.1f );
+#endif
 }
 
 

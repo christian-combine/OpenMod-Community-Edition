@@ -120,7 +120,9 @@ public:
 			static int warningCount = 0;
 			if ( ++warningCount < 10 )
 			{
+#ifndef OMOD
 				AssertMsg2( 0, "Node (%i) out of range (%i total)\n", id, m_iNumNodes ); 
+#endif
 			}
 		}
 		return NULL; 
