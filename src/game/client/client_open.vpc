@@ -42,6 +42,9 @@ $Project "Client (OpenMod)"
 				$File	"openmod\basemenu.h"
 			}
 			
+			$File	"openmod\workshopmanager.cpp"
+			$File	"openmod\workshopmanager.h"
+			
 			$File	"$SRCDIR\game\shared\Multiplayer\multiplayer_animstate.h"
 			$File	"$SRCDIR\game\shared\Multiplayer\multiplayer_animstate.cpp"
 			
