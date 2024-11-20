@@ -2887,8 +2887,7 @@ void CNPC_MetroPolice::OnAnimEventShove( void )
 //-----------------------------------------------------------------------------
 void CNPC_MetroPolice::OnAnimEventBatonOn( void )
 {
-#ifndef HL2MP
-
+#if !defined( HL2MP ) || defined( OMOD )
 	CWeaponStunStick *pStick = dynamic_cast<CWeaponStunStick *>(GetActiveWeapon());
 
 	if ( pStick )
@@ -2896,7 +2895,6 @@ void CNPC_MetroPolice::OnAnimEventBatonOn( void )
 		pStick->SetStunState( true );
 	}
 #endif
-
 }
 
 //-----------------------------------------------------------------------------
@@ -2904,8 +2902,7 @@ void CNPC_MetroPolice::OnAnimEventBatonOn( void )
 //-----------------------------------------------------------------------------
 void CNPC_MetroPolice::OnAnimEventBatonOff( void )
 {
-#ifndef HL2MP
-
+#if !defined( HL2MP ) || defined( OMOD )
 	CWeaponStunStick *pStick = dynamic_cast<CWeaponStunStick *>(GetActiveWeapon());
 	
 	if ( pStick )
@@ -4022,7 +4019,11 @@ void CNPC_MetroPolice::AdministerJustice( void )
 //-----------------------------------------------------------------------------
 int CNPC_MetroPolice::SelectSchedule( void )
 {
+#ifdef OMOD
+	if ( !GetEnemy() && HasCondition( COND_IN_PVS ) && AI_GetNearestPlayer( GetAbsOrigin() ) && !AI_GetNearestPlayer( GetAbsOrigin() )->IsAlive() )
+#else
 	if ( !GetEnemy() && HasCondition( COND_IN_PVS ) && AI_GetSinglePlayer() && !AI_GetSinglePlayer()->IsAlive() )
+#endif
 	{
 		return SCHED_PATROL_WALK;
 	}
@@ -5067,8 +5068,7 @@ bool CNPC_MetroPolice::HasBaton( void )
 //-----------------------------------------------------------------------------
 bool CNPC_MetroPolice::BatonActive( void )
 {
-#ifndef HL2MP
-
+#if !defined( HL2MP ) || defined( OMOD )
 	CWeaponStunStick *pStick = dynamic_cast<CWeaponStunStick *>(GetActiveWeapon());
 
 	if ( pStick )
@@ -5127,7 +5127,11 @@ void CNPC_MetroPolice::VPhysicsCollision( int index, gamevcollisionevent_t *pEve
 
 	if ( pEvent->pObjects[otherIndex]->GetGameFlags() & FVPHYSICS_PLAYER_HELD )
 	{
+#ifdef OMOD
+		CHL2MP_Player *pPlayer = dynamic_cast<CHL2MP_Player *>(AI_GetNearestPlayer( GetAbsOrigin() ));
+#else
 		CHL2_Player *pPlayer = dynamic_cast<CHL2_Player *>(UTIL_PlayerByIndex( 1 ));
+#endif
 
 		// See if it's being held by the player
 		if ( pPlayer != NULL && pPlayer->IsHoldingEntity( pHitEntity ) )
