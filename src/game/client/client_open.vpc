@@ -13,7 +13,7 @@ $Configuration
 {
 	$Compiler
 	{
-		$AdditionalIncludeDirectories		"$BASE;hl2mp\ui,.\hl2mp,$SRCDIR\game\shared\hl2mp,.\hl2,.\hl2\elements,$SRCDIR\game\shared\hl2;.\openmod;$SRCDIR\game\shared\openmod"
+		$AdditionalIncludeDirectories		"$BASE;hl2mp\ui,.\hl2mp,$SRCDIR\game\shared\hl2mp,.\hl2,.\hl2\elements,$SRCDIR\game\shared\hl2;.\openmod;$SRCDIR\game\shared\openmod;.\portal"
 		$PreprocessorDefinitions			"$BASE;HL2MP;HL2_CLIENT_DLL;OMOD"
 	}
 }
@@ -33,6 +33,15 @@ $Project "Client (OpenMod)"
 		$File	"$SRCDIR\game\shared\predicted_viewmodel.h"
 		$File	"$SRCDIR\game\shared\teamplay_round_timer.cpp"
 		$File	"$SRCDIR\game\shared\teamplay_round_timer.h"
+		
+		$Folder "Portal"
+		{
+			$File	"portal\c_neurotoxin_countdown.cpp"
+			$File	"portal\c_neurotoxin_countdown.h"
+			$File	"portal\c_npc_portal_turret_floor.cpp"
+			$File	"portal\c_npc_rocket_turret.cpp"
+			$File	"portal\c_portal_radio.cpp"
+		}
 		
 		$Folder	"OpenMod DLL"
 		{

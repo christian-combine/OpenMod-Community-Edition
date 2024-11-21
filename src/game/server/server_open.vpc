@@ -14,7 +14,7 @@ $Configuration
 {
 	$Compiler
 	{
-		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\game\shared\hl2,.\hl2,.\hl2mp,$SRCDIR\game\shared\hl2mp;.\openmod;$SRCDIR\game\shared\openmod"
+		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\game\shared\hl2,.\hl2,.\hl2mp,$SRCDIR\game\shared\hl2mp;.\openmod;$SRCDIR\game\shared\openmod;.\portal"
 		$PreprocessorDefinitions		"$BASE;HL2MP;HL2_DLL;OMOD"
 	}
 }
@@ -59,6 +59,17 @@ $Project "Server (OpenMod)"
 		$File	"trigger_area_capture.h"
 		$File   "$SRCDIR\game\shared\teamplay_round_timer.cpp"
 		$File   "$SRCDIR\game\shared\teamplay_round_timer.h"
+
+		$Folder "Portal"
+		{
+			$File	"portal\npc_portal_turret_floor.cpp"
+			$File	"portal\npc_portal_turret_ground.cpp"
+			$File	"portal\npc_rocket_turret.cpp"
+			$File	"portal\prop_glados_core.cpp"
+			$File	"portal\npc_security_camera.cpp"
+			$File	"portal\neurotoxin_countdown.cpp"
+			$File	"portal\portal_radio.cpp"
+		}
 
 		$Folder	"OpenMod DLL"
 		{
