@@ -6,7 +6,7 @@
 //=============================================================================//
 
 #include "cbase.h"
-#include "basehlcombatweapon.h"
+#include "weapon_hl2mpbasehlmpcombatweapon.h"
 #include "engine/IEngineSound.h"
 #include "npcevent.h"
 #include "in_buttons.h"
@@ -21,9 +21,9 @@
 // Bug Bait Weapon
 //
 
-class CWeaponBugBait : public CBaseHLCombatWeapon
+class CWeaponBugBait : public CBaseHL2MPCombatWeapon
 {
-	DECLARE_CLASS( CWeaponBugBait, CBaseHLCombatWeapon );
+	DECLARE_CLASS( CWeaponBugBait, CBaseHL2MPCombatWeapon );
 public:
 
 	DECLARE_SERVERCLASS();
@@ -229,7 +229,6 @@ void CWeaponBugBait::PrimaryAttack( void )
 	m_flTimeWeaponIdle		= FLT_MAX;
 	m_flNextPrimaryAttack	= FLT_MAX;
 
-	m_iPrimaryAttacks++;
 	gamestats->Event_WeaponFired( pPlayer, true, GetClassname() );
 }
 
@@ -254,7 +253,6 @@ void CWeaponBugBait::SecondaryAttack( void )
 	CBasePlayer *pOwner = ToBasePlayer( GetOwner() );
 	if ( pOwner )
 	{
-		m_iSecondaryAttacks++;
 		gamestats->Event_WeaponFired( pOwner, false, GetClassname() );
 	}
 }
