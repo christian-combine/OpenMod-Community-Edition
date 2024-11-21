@@ -198,6 +198,7 @@ void CHL2MP_Player::GiveAllItems( void )
 	GiveNamedItem( "weapon_physcannon" );
 	GiveNamedItem( "weapon_physgun" );
 
+	GiveNamedItem( "weapon_bugbait" );
 }
 
 void CHL2MP_Player::GiveDefaultItems( void )
