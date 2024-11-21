@@ -677,7 +677,7 @@ void CPropJeep::Think( void )
 {
 	BaseClass::Think();
 
-	CBasePlayer	*pPlayer = UTIL_GetLocalPlayer();
+	CBasePlayer	*pPlayer = UTIL_GetNearestPlayer( GetAbsOrigin() );
 
 	if ( m_bEngineLocked )
 	{
@@ -898,6 +898,10 @@ void CPropJeep::FireCannon( void )
 	if ( m_bUnableToFire )
 		return;
 
+#ifdef OMOD
+	CDisablePredictionFiltering disabler;
+#endif
+
 	m_flCannonTime = gpGlobals->curtime + 0.2f;
 	m_bCannonCharging = false;
 
@@ -936,6 +940,10 @@ void CPropJeep::FireCannon( void )
 //-----------------------------------------------------------------------------
 void CPropJeep::FireChargedCannon( void )
 {
+#ifdef OMOD
+	CDisablePredictionFiltering disabler;
+#endif
+
 	bool penetrated = false;
 
 	m_bCannonCharging	= false;

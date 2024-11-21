@@ -313,7 +313,7 @@ bool CAI_Expresser::SpeakFindResponse( AI_Response &outResponse, AIConcept_t con
 	// Append local player criteria to set, but not if this is a player doing the talking
 	if ( !GetOuter()->IsPlayer() )
 	{
-		CBasePlayer *pPlayer = UTIL_PlayerByIndex( 1 );
+		CBasePlayer *pPlayer = AI_GetNearestPlayer( GetOuter()->GetAbsOrigin() );
 		if( pPlayer )
 			pPlayer->ModifyOrAppendPlayerCriteria( set );
 	}
