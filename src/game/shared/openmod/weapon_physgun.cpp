@@ -1204,9 +1204,7 @@ int CWeaponPhysicsGun::DrawModel( int flags )
 			points[1] = vecSrc + 0.5f * (forward * points[2].DistTo(points[0]));
 		}
 		
-		IMaterial *pMat = materials->FindMaterial( "sprites/physbeam1", TEXTURE_GROUP_CLIENT_EFFECTS );
-		if ( pObject )
-			pMat = materials->FindMaterial( "sprites/physbeam", TEXTURE_GROUP_CLIENT_EFFECTS );
+		IMaterial *pMat = materials->FindMaterial( PHYSGUN_BEAM_SPRITE, TEXTURE_GROUP_CLIENT_EFFECTS );
 		Vector color;
 		color.Init(1,1,1);
 
@@ -1216,16 +1214,8 @@ int CWeaponPhysicsGun::DrawModel( int flags )
 		DrawBeamQuadratic( points[0], points[1], points[2], pObject ? 13/3.0f : 13/5.0f, color, scrollOffset );
 		DrawBeamQuadratic( points[0], points[1], points[2], pObject ? 13/3.0f : 13/5.0f, color, -scrollOffset );
 
-		IMaterial *pMaterial = materials->FindMaterial( "sprites/physglow", TEXTURE_GROUP_CLIENT_EFFECTS );
-
-		color32 clr={0,64,255,255};
-		if ( pObject )
-		{
-			clr.r = 186;
-			clr.g = 253;
-			clr.b = 247;
-			clr.a = 255;
-		}
+		IMaterial *pMaterial = materials->FindMaterial( PHYSGUN_BEAM_GLOW, TEXTURE_GROUP_CLIENT_EFFECTS );
+		color32 clr = {186,253,247,255};
 
 		float scale = random->RandomFloat( 3, 5 ) * ( pObject ? 3 : 2 );
 
@@ -1266,10 +1256,18 @@ void CWeaponPhysicsGun::ViewModelDrawn( C_BaseViewModel *pBaseViewModel )
 	pBaseViewModel->GetAttachment( 1, points[0], tmpAngle );
 
 	// a little noise 11t & 13t should be somewhat non-periodic looking
-	//points[1].z += 4*sin( gpGlobals->curtime*11 ) + 5*cos( gpGlobals->curtime*13 );
-	trace_t tr;
-	TraceLine( &tr );
-	points[2] = tr.endpos;
+	points[1].z += 4*sin( gpGlobals->curtime*11 ) + 5*cos( gpGlobals->curtime*13 );
+	if (pObject == NULL)
+	{
+		//points[2] = m_targetPosition;
+		trace_t tr;
+		TraceLine(&tr);
+		points[2] = tr.endpos;
+	}
+	else
+	{
+		pObject->EntityToWorldSpace(m_worldPosition, &points[2]);
+	}
 
 	Vector forward, right, up;
 	QAngle playerAngles = pOwner->EyeAngles();
@@ -1277,9 +1275,7 @@ void CWeaponPhysicsGun::ViewModelDrawn( C_BaseViewModel *pBaseViewModel )
 	Vector vecSrc = pOwner->Weapon_ShootPosition( );
 	points[1] = vecSrc + 0.5f * (forward * points[2].DistTo(points[0]));
 	
-	IMaterial *pMat = materials->FindMaterial( "sprites/physbeam1", TEXTURE_GROUP_CLIENT_EFFECTS );
-	if ( pObject )
-		pMat = materials->FindMaterial( "sprites/physbeam", TEXTURE_GROUP_CLIENT_EFFECTS );
+	IMaterial *pMat = materials->FindMaterial( PHYSGUN_BEAM_SPRITE, TEXTURE_GROUP_CLIENT_EFFECTS );
 	Vector color;
 	color.Init(1,1,1);
 
@@ -1297,21 +1293,13 @@ void CWeaponPhysicsGun::ViewModelDrawn( C_BaseViewModel *pBaseViewModel )
 	// Force clipped down range
 	pRenderContext->DepthRange( 0.1f, 0.2f );
 #endif
-	DrawBeamQuadratic( points[0], points[1], points[2], pObject ? 13/3.0f : 13/5.0f, color, scrollOffset );
-	DrawBeamQuadratic( points[0], points[1], points[2], pObject ? 13/3.0f : 13/5.0f, color, -scrollOffset );
+	DrawBeamQuadratic( points[0], points[1], points[2], 13/3.0f, color, scrollOffset );
+	DrawBeamQuadratic( points[0], points[1], points[2], 13/3.0f, color, -scrollOffset );
 
-	IMaterial *pMaterial = materials->FindMaterial( "sprites/physglow", TEXTURE_GROUP_CLIENT_EFFECTS );
+	IMaterial *pMaterial = materials->FindMaterial( PHYSGUN_BEAM_GLOW, TEXTURE_GROUP_CLIENT_EFFECTS );
+	color32 clr = { 186,253,247,255 };
 
-	color32 clr={0,64,255,255};
-	if ( pObject )
-	{
-		clr.r = 186;
-		clr.g = 253;
-		clr.b = 247;
-		clr.a = 255;
-	}
-
-	float scale = random->RandomFloat( 3, 5 ) * ( pObject ? 3 : 2 );
+	float scale = random->RandomFloat( 3, 5 ) * ( 3 );
 
 	// Draw the sprite
 	pRenderContext->Bind( pMaterial );
@@ -1370,7 +1358,7 @@ void CWeaponPhysicsGun::ItemPostFrame( void )
 	//  - this will indicate to OverrideMouseInput that we should zero the input and update our delta angles
 	//  UPDATE: not anymore.  now this just sets our state variables.
 	CBaseEntity *pObject = m_hObject;
-	if( pObject ) {
+	if ( pObject ) {
 
 		if((pOwner->m_nButtons & IN_ATTACK) && (pOwner->m_nButtons & IN_USE) ) {
 			m_gravCallback.m_bHasRotatedCarryAngles = true;
