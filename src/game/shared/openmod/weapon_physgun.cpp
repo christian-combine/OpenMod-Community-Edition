@@ -45,46 +45,52 @@ CLIENTEFFECT_REGISTER_BEGIN( PrecacheEffectGravityGun )
 CLIENTEFFECT_REGISTER_END()
 #endif
 
-IPhysicsObject *GetPhysObjFromPhysicsBone( CBaseEntity *pEntity, short physicsbone )
+IPhysicsObject* GetPhysObjFromPhysicsBone(CBaseEntity* pEntity, short physicsbone)
 {
-	if( pEntity->IsNPC() )
+	if (pEntity->IsNPC())
 	{
 		return pEntity->VPhysicsGetObject();
 	}
 
-	CBaseAnimating *pModel = static_cast< CBaseAnimating * >( pEntity );
-	if ( pModel != NULL )
+	CBaseAnimating* pModel = static_cast<CBaseAnimating*>(pEntity);
+	if (!pModel)
 	{
-		IPhysicsObject	*pPhysicsObject = NULL;
-		
-		//Find the real object we hit.
-		if( physicsbone >= 0 )
-		{
-#ifdef CLIENT_DLL
-			if ( pModel->m_pRagdoll )
-			{
-				CRagdoll *pCRagdoll = dynamic_cast < CRagdoll * > ( pModel->m_pRagdoll );
-#else
-				// Affect the object
-				CRagdollProp *pCRagdoll = dynamic_cast<CRagdollProp*>( pEntity );
-#endif
-				if ( pCRagdoll )
-				{
-					ragdoll_t *pRagdollT = pCRagdoll->GetRagdoll();
-
-					if ( physicsbone < pRagdollT->listCount )
-					{
-						pPhysicsObject = pRagdollT->list[physicsbone].pObject;
-					}
-					return pPhysicsObject;
-				}
-#ifdef CLIENT_DLL
-			}
-#endif
-		}
+		return nullptr;
 	}
 
-	return pEntity->VPhysicsGetObject();
+	if (physicsbone < 0)
+	{
+		return pEntity->VPhysicsGetObject();
+	}
+
+	IPhysicsObject* pPhysicsObject = nullptr;
+
+#ifdef CLIENT_DLL
+	if (pModel->m_pRagdoll)
+	{
+		CRagdoll* pRagdoll = dynamic_cast<CRagdoll*>(pModel->m_pRagdoll);
+		if (pRagdoll)
+		{
+			ragdoll_t* pRagdollT = pRagdoll->GetRagdoll();
+			if (physicsbone < pRagdollT->listCount)
+			{
+				pPhysicsObject = pRagdollT->list[physicsbone].pObject;
+			}
+		}
+	}
+#else
+	if (CBaseAnimating* pCRagdollProp = dynamic_cast<CRagdollProp*>(pEntity))
+	{
+		CRagdollProp* pRagdollProp = static_cast<CRagdollProp*>(pEntity);
+		ragdoll_t* pRagdollT = pRagdollProp->GetRagdoll();
+		if (physicsbone < pRagdollT->listCount)
+		{
+			pPhysicsObject = pRagdollT->list[physicsbone].pObject;
+		}
+	}
+#endif
+
+	return pPhysicsObject ? pPhysicsObject : pEntity->VPhysicsGetObject();
 }
 
 class CGravControllerPoint : public IMotionEvent
