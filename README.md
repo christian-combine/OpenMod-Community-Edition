@@ -4,12 +4,13 @@ OpenMod is a **free-to-play**, **open-source** and **fun** Sandbox mod which aim
 
 Why a **JBMod** alternative? because you can't improve *perfection* (aka **Garry's Mod**).
 
-## Building 🔨 (Windows)
+## Building 🔨
+### Windows
 1. get Visual Studio 2013
 2. run `createopenprojects.bat`
 3. open the `.sln` file and build the solution
 
-## Building 🔨 (Linux)
+### Linux
 1. install all Source SDK dependencies
 2. run `./createopenprojects.sh`
 3. build with `make`
