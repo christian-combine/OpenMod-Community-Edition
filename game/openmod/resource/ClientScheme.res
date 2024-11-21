@@ -37,23 +37,23 @@ Scheme
 	BaseSettings
 	{
 		"FgColor"			"255 220 0 100"
-		"BgColor"			"0 0 0 76"
+		"BgColor"			"0 0 0 137"
 
 		"Panel.FgColor"			"255 220 0 100"
-		"Panel.BgColor"			"0 0 0 76"
+		"Panel.BgColor"			"0 0 0 137"
 		
 		"BrightFg"		"255 220 0 255"
 
-		"DamagedBg"			"180 0 0 200"
+		"DamagedBg"			"180 0 0 137"
 		"DamagedFg"			"180 0 0 230"
 		"BrightDamagedFg"		"255 0 0 255"
 
 		// weapon selection colors
 		"SelectionNumberFg"		"255 220 0 255"
 		"SelectionTextFg"		"255 220 0 255"
-		"SelectionEmptyBoxBg" 	"0 0 0 80"
-		"SelectionBoxBg" 		"0 0 0 80"
-		"SelectionSelectedBoxBg" "0 0 0 80"
+		"SelectionEmptyBoxBg" 	"0 0 0 137"
+		"SelectionBoxBg" 		"0 0 0 137"
+		"SelectionSelectedBoxBg" "0 0 0 137"
 		
 		"ZoomReticleColor"	"255 220 0 255"
 
@@ -63,17 +63,17 @@ Scheme
 		"Caution"			"255 48 0 255"
 
 		// Top-left corner of the "Half-Life 2" on the main screen
-		"Main.Title1.X"		"76"
-		"Main.Title1.Y"		"184"
+		"Main.Title1.X"			"53"
+		"Main.Title1.Y"			"170"
 		"Main.Title1.Color"	"255 255 255 255"
 		
 		// Top-left corner of the "DEATHMATCH" on the main screen
-		"Main.Title2.X"		"315"
-		"Main.Title2.Y"		"222"
+		"Main.Title2.X"				"291"
+		"Main.Title2.Y"				"207"
 		"Main.Title2.Color"	"255 255 255 180"
 
 		// Top-left corner of the menu on the main screen
-		"Main.Menu.X"		"76"
+		"Main.Menu.X"		"63"
 		"Main.Menu.Y"		"240"
 
 		// Blank space to leave beneath the menu on the main screen
@@ -250,13 +250,13 @@ Scheme
 		"ProgressBarFg"			"255 30 13 255"
 
 		// Top-left corner of the "Counter-Strike" on the main screen
-		"Main.Title1.X"		"32"
-		"Main.Title1.Y"		"180"
-		"Main.Title1.Color"	"255 255 255 255"
+		"Main.Title1.X"		"76"
+		"Main.Title1.Y"		"184"
+		"Main.Title1.Color"	"196 181 80 255"
 
 		// Top-left corner of the "SOURCE" on the main screen
-		"Main.Title2.X"		"380"	
-		"Main.Title2.Y"		"205"
+		"Main.Title2.X"		"315"
+		"Main.Title2.Y"		"222"
 		"Main.Title2.Color"	"255 255 255 80"
 
 		// Top-left corner of the "BETA" on the main screen
@@ -279,6 +279,7 @@ Scheme
 	{
 		// fonts are used in order that they are listed
 		// fonts are used in order that they are listed
+		
 		"DebugFixed"
 		{
 			"1"
@@ -474,6 +475,19 @@ Scheme
 			{
 				"name"		"HalfLife2"
 				"tall"		"64"
+				"weight"	"0"
+				"antialias" "1"
+				"additive"	"1"
+				"custom"	"1"
+			}
+		}
+		WeaponIconsSmall
+		{
+			"1"
+			{
+				"name"		"HalfLife2"
+				"tall"		"36" [$DECK]
+				"tall"		"32"
 				"weight"	"0"
 				"antialias" "1"
 				"additive"	"1"
@@ -1579,5 +1593,4 @@ Scheme
 		"1"		"resource/HL2MP.ttf"
 		"2"		"resource/HL2crosshairs.ttf"
 	}
-
 }
