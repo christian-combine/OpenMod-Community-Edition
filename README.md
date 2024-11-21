@@ -4,15 +4,15 @@ OpenMod is a **free-to-play**, **open-source** and **fun** Sandbox mod which aim
 
 Why a **JBMod** alternative? because you can't improve *perfection* (aka **Garry's Mod**).
 
-## Building 🔨 (On Windows)
+## Building 🔨 (Windows)
 1. get Visual Studio 2013
 2. run `createopenprojects.bat`
 3. open the `.sln` file and build the solution
 
-## Building 🔨 (On Linux)
-1. install all source engine dependencies
-2. run the commands `createopenprojects.sh`
-3. then open the makefile with the command `make`
+## Building 🔨 (Linux)
+1. install all Source SDK dependencies
+2. run `./createopenprojects.sh`
+3. build with `make`
 
 ## Contributing 🧑
 
@@ -28,6 +28,6 @@ This project uses **two different licenses** depending on the part of the code:
 2. **[MIT License](https://choosealicense.com/licenses/mit/)**  
    All the original stuff we've added—like custom code, assets, or maps — is licensed under MIT. This only applies to the parts of the project that don’t rely directly on the Source SDK.  
 
-### A Few Things to Keep in Mind:  
+### A few things to keep in mind:  
 - You can’t use or distribute anything from the Source SDK (or anything based on it) for commercial purposes unless Valve says it’s okay.  
 - When contributing to this project, anything tied to the Source SDK has to stick to its license, but anything else can follow the MIT License.  
