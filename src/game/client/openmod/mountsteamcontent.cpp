@@ -31,53 +31,72 @@ gamePaths_t g_GamePaths[11] =
 	{ "tf",			440 }
 };
 
-bool mountContent( int nExtraAppId )
+bool mountContent(int nExtraAppId)
 {
-	char szInstallDir[1024];
-	if (!steamapicontext->SteamApps()->GetAppInstallDir(nExtraAppId, szInstallDir, sizeof(szInstallDir)))
-	{
-		return false; // fail..
-	}
-	char szSearchPath[1024];
-	Q_snprintf(szSearchPath, sizeof(szSearchPath), "%s/*_dir.vpk", szInstallDir);
+    char szInstallDir[1024];
+    if (!steamapicontext->SteamApps()->GetAppInstallDir(nExtraAppId, szInstallDir, sizeof(szInstallDir)))
+        return false; // fail..
 
-	FileFindHandle_t hFind;
-	const char* pFilename = g_pFullFileSystem->FindFirst(szSearchPath, &hFind);
+	for (int i = 0; i < 11; i++)
+    {
+		int iVal = g_GamePaths[i].m_nAppId;
+		if (iVal == nExtraAppId)
+		{
+			char szSearchPath[1024];
+			Q_snprintf(szSearchPath, sizeof(szSearchPath), "%s/%s/*_dir.vpk", szInstallDir, g_GamePaths[i].m_pPathName);
 
-	if (!pFilename)
-		return false;
+			FileFindHandle_t hFind;
+			const char* pFilename = g_pFullFileSystem->FindFirst(szSearchPath, &hFind);
 
-	do
-	{
-		char szVPKFile[1024];
-		Q_strncpy(szVPKFile, pFilename, sizeof(szVPKFile));
+			if (!pFilename)
+				continue;
 
-		szVPKFile[strlen(szVPKFile) - 8] = '\0';
-		Q_strcat(szVPKFile, ".vpk", sizeof(szVPKFile));
+			do
+			{
+				char file[1024];
+				Q_strncpy(file, pFilename, sizeof(file));
 
-		g_pFullFileSystem->AddSearchPath(szVPKFile, "VPK");
+				file[strlen(file) - 8] = '\0';
 
-	} while (g_pFullFileSystem->FindNext(hFind));
+				char absolutePath[1024];
+				Q_snprintf(absolutePath, sizeof(absolutePath), "%s/%s/%s", szInstallDir, g_GamePaths[i].m_pPathName, file);
 
-	g_pFullFileSystem->FindClose(hFind);
+				Q_strcat(absolutePath, "_dir.vpk", sizeof(absolutePath));
+				DevMsg("mounting path: %s\n", absolutePath);
 
-	return true;
+				g_pFullFileSystem->AddSearchPath(absolutePath, "GAME");
+
+			} while (g_pFullFileSystem->FindNext(hFind));
+
+			g_pFullFileSystem->FindClose(hFind);
+		}
+    }
+
+    return true;
 };
 
 void addSearchPathByAppId( int nAppId )
 {
-	for (int i = 0; i < ARRAYSIZE(g_GamePaths); i++)
+	for (int i = 0; i < 11; i++)
 	{
 		int iVal = g_GamePaths[i].m_nAppId;
+		char szInstallDir[1024];
+		if (!steamapicontext->SteamApps()->GetAppInstallDir(iVal, szInstallDir, sizeof(szInstallDir)))
+			return; // fail..
+
+		char absolutePath[1024];
+
 		if (iVal == 360)
 		{
 			const char* pathName = g_GamePaths[2].m_pPathName;
-			g_pFullFileSystem->AddSearchPath( pathName, "GAME", PATH_ADD_TO_TAIL );
+			Q_snprintf(absolutePath, sizeof(absolutePath), "%s/%s", szInstallDir, pathName);
+			g_pFullFileSystem->AddSearchPath(pathName, "GAME");
 		}
 		if (iVal == nAppId)
 		{
 			const char* pathName = g_GamePaths[i].m_pPathName;
-			g_pFullFileSystem->AddSearchPath( pathName, "GAME", PATH_ADD_TO_TAIL );
+			Q_snprintf(absolutePath, sizeof(absolutePath), "%s/%s", szInstallDir, pathName);
+			g_pFullFileSystem->AddSearchPath(absolutePath, "GAME");
 		}
 	}
 };
@@ -106,6 +125,7 @@ void mountGames(void)
 					int nExtraContentId = pKey->GetInt();
 					if (nExtraContentId)
 					{
+						DevMsg("mounting id %i\n", nExtraContentId);
 						addSearchPathByAppId(nExtraContentId);
 						mountContent(nExtraContentId);
 					}
