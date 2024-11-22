@@ -19,14 +19,14 @@ typedef struct
 gamePaths_t g_GamePaths[11] =
 {
 	{ "hl2",		220 },
+	{ "episodic",	220 }, // got merged in base game
+	{ "ep2",		220 }, // got merged in base game
 	{ "cstrike",	240 },
 	{ "hl1",		280 },
 	{ "dod",		300 },
 	{ "lostcoast",	340 },
 	{ "hl1mp",		360 },
-	{ "episodic",	380 },
 	{ "portal",		400 },
-	{ "ep2",		420 },
 	{ "hl2mp",		320 },
 	{ "tf",			440 }
 };

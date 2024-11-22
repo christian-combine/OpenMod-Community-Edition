@@ -2789,6 +2789,9 @@ struct SquadCandidate_t
 void CNPC_Citizen::UpdatePlayerSquad()
 {
 	CBasePlayer *pPlayer = UTIL_GetNearestPlayer( GetAbsOrigin() );
+	if ( !pPlayer )
+		return;
+
 	if ( ( pPlayer->GetAbsOrigin().AsVector2D() - GetAbsOrigin().AsVector2D() ).LengthSqr() < Square(20*12) )
 		m_flTimeLastCloseToPlayer = gpGlobals->curtime;
 
