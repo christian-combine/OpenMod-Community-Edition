@@ -1669,7 +1669,11 @@ void CChangeLevel::ChangeLevelNow( CBaseEntity *pActivator )
 	// If we're debugging, don't actually change level
 	if ( g_debug_transitions.GetInt() == 0 )
 	{
+#ifndef OMOD
 		engine->ChangeLevel( st_szNextMap, st_szNextSpot );
+#else
+		engine->ChangeLevel( st_szNextMap, NULL );
+#endif
 	}
 	else
 	{
