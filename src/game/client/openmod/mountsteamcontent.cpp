@@ -16,19 +16,20 @@ typedef struct
 	int m_nAppId;
 } gamePaths_t;
 
-gamePaths_t g_GamePaths[11] =
+gamePaths_t g_GamePaths[12] =
 {
-	{ "hl2",		220 },
-	{ "episodic",	220 }, // got merged in base game
-	{ "ep2",		220 }, // got merged in base game
-	{ "cstrike",	240 },
-	{ "hl1",		280 },
-	{ "dod",		300 },
-	{ "lostcoast",	340 },
-	{ "hl1mp",		360 },
-	{ "portal",		400 },
-	{ "hl2mp",		320 },
-	{ "tf",			440 }
+	{ "hl2",		220    },
+	{ "episodic",	220    }, // got merged in base game
+	{ "ep2",		220    }, // got merged in base game
+	{ "cstrike",	240    },
+	{ "hl1",		280    },
+	{ "dod",		300    },
+	{ "lostcoast",	340    },
+	{ "hl1mp",		360    },
+	{ "portal",		400    },
+	{ "hl2mp",		320    },
+	{ "tf",			440    },
+	{ "insurgency",	222880 }
 };
 
 bool mountContent(int nExtraAppId)
