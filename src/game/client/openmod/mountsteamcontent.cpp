@@ -105,13 +105,7 @@ void addSearchPathByAppId( int nAppId )
 void mountGames(void)
 {
 	KeyValues* pMainFile, * pFileSystemInfo;
-#ifdef CLIENT_DLL
 	const char* gamePath = engine->GetGameDirectory();
-#else
-	char gamePath[256];
-	engine->GetGameDir(gamePath, 256);
-	Q_StripTrailingSlash(gamePath);
-#endif
 
 	pMainFile = new KeyValues("gamecontent.txt");
 	if (pMainFile->LoadFromFile(filesystem, VarArgs("%s/gamecontent.txt", gamePath), "MOD"))
