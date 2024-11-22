@@ -2,6 +2,5 @@
 {
 	"FileSystem"
 	{
-		"appid"		"220"
 	}
 }
