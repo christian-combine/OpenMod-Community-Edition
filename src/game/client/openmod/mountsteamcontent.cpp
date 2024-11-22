@@ -16,21 +16,21 @@ typedef struct
 	int m_nAppId;
 } gamePaths_t;
 
-gamePaths_t g_GamePaths[12] =
+gamePaths_t g_GamePaths[11] =
 {
 	{ "hl2",		220    },
 	{ "episodic",	220    }, // got merged in base game
 	{ "ep2",		220    }, // got merged in base game
+	{ "lostcoast",	220    }, // got merged in base game
 	{ "cstrike",	240    },
 	{ "hl1",		280    },
 	{ "dod",		300    },
-	{ "lostcoast",	340    },
 	{ "hl1mp",		360    },
 	{ "portal",		400    },
 	{ "hl2mp",		320    },
-	{ "tf",			440    },
-	{ "insurgency",	222880 }
+	{ "tf",			440    }
 };
+int size = sizeof(g_GamePaths) / sizeof(g_GamePaths[0]); // because we can't do g_GamePaths.size()
 
 bool mountContent(int nExtraAppId)
 {
@@ -38,7 +38,7 @@ bool mountContent(int nExtraAppId)
     if (!steamapicontext->SteamApps()->GetAppInstallDir(nExtraAppId, szInstallDir, sizeof(szInstallDir)))
         return false; // fail..
 
-	for (int i = 0; i < 11; i++)
+	for (int i = 0; i < size; i++)
     {
 		int iVal = g_GamePaths[i].m_nAppId;
 		if (iVal == nExtraAppId)
@@ -78,7 +78,7 @@ bool mountContent(int nExtraAppId)
 
 void addSearchPathByAppId( int nAppId )
 {
-	for (int i = 0; i < 11; i++)
+	for (int i = 0; i < size; i++)
 	{
 		int iVal = g_GamePaths[i].m_nAppId;
 		char szInstallDir[1024];
