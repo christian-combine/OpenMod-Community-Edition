@@ -170,6 +170,7 @@ extern vgui::IInputInternal *g_InputInternal;
 
 #ifdef OMOD
 #include "basemenu.h"
+#include "mountsteamcontent.h"
 #endif
 
 // memdbgon must be the last include file in a .cpp file!!!
@@ -1174,6 +1175,10 @@ void CHLClient::PostInit()
 			g_pFullFileSystem->AddSearchPath( szPath, "GAME" );
 		}
 	}
+#endif
+
+#ifdef OMOD
+	mountGames();
 #endif
 }
 

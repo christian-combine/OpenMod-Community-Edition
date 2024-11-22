@@ -1,0 +1,7 @@
+"GameContent"
+{
+	"FileSystem"
+	{
+		"appid"		"220"
+	}
+}
